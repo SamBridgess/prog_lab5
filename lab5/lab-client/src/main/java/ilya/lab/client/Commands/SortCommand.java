@@ -7,18 +7,14 @@ import ilya.lab.client.Utility.CollectionManager;
  * sort command
  */
 public class SortCommand extends Command {
-    private final int numberOfArguments = 0;
     private final CollectionManager manager;
     private IOManager io;
     public SortCommand(IOManager io, CollectionManager manager) {
+        super(0);
         this.io = io;
         this.manager = manager;
     }
 
-    @Override
-    public int getNumberOfArguments() {
-        return numberOfArguments;
-    }
     @Override
     public void execute(String[] args) {
         manager.sortCollection();

@@ -9,17 +9,14 @@ import ilya.lab.client.Utility.CollectionManager;
  * update command
  */
 public class UpdateCommand extends Command {
-    private final int numberOfArguments = 1;
     private final CollectionManager manager;
     private IOManager io;
     public UpdateCommand(IOManager io, CollectionManager manager) {
+        super(1);
         this.io = io;
         this.manager = manager;
     }
-    @Override
-    public int getNumberOfArguments() {
-        return numberOfArguments;
-    }
+
     @Override
     public void execute(String[] args) throws WrongFileFormatException, CtrlDException {
         try {

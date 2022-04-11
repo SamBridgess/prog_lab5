@@ -18,22 +18,17 @@ import java.util.Stack;
  * execute_script command
  */
 public class ExecuteScriptCommand extends Command {
-    private final int numberOfArguments = 1;
     private final CollectionManager manager;
     private IOManager io;
     private HashMap<String, Command> commands;
     private Stack<File> files;
 
     public ExecuteScriptCommand(IOManager io, CollectionManager manager, HashMap<String, Command> commands, Stack<File> files) {
+        super(1);
         this.io = io;
         this.manager = manager;
         this.commands = commands;
         this.files = files;
-    }
-
-    @Override
-    public int getNumberOfArguments() {
-        return numberOfArguments;
     }
 
     @Override

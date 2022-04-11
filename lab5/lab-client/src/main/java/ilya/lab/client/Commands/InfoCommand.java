@@ -7,17 +7,15 @@ import ilya.lab.client.Utility.CollectionManager;
  * info command
  */
 public class InfoCommand extends Command {
-    private final int numberOfArguments = 0;
+
     private final CollectionManager manager;
     private IOManager io;
     public InfoCommand(IOManager io, CollectionManager manager) {
+        super(0);
         this.io = io;
         this.manager = manager;
     }
-    @Override
-    public int getNumberOfArguments() {
-        return numberOfArguments;
-    }
+
     @Override
     public void execute(String[] args) {
         manager.printInfo(io);

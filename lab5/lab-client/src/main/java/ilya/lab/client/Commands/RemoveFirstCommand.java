@@ -7,17 +7,14 @@ import ilya.lab.client.Utility.CollectionManager;
  * remove_first command
  */
 public class RemoveFirstCommand extends Command {
-    private final int numberOfArguments = 0;
     private final CollectionManager manager;
     private IOManager io;
     public RemoveFirstCommand(IOManager io, CollectionManager manager) {
+        super(0);
         this.io = io;
         this.manager = manager;
     }
-    @Override
-    public int getNumberOfArguments() {
-        return numberOfArguments;
-    }
+
     @Override
     public void execute(String[] args) {
         manager.removeElement(0, io);
