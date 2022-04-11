@@ -17,7 +17,6 @@ public class CollectionManager {
     @XmlElement(name = "route")
     private ArrayList<Route> collection = new ArrayList<>();
     private final Date collectionCreationDate = new Date();
-    private final ArrayList<Float> distanceList = new ArrayList<>();
     private Long maxId = 1L;
 
     /**
@@ -52,7 +51,6 @@ public class CollectionManager {
         if (route.isPresent()) {
             Route r = new RouteCreator(io, this).createRoute();
             collection.set(collection.indexOf(route.get()), r);
-            distanceList.set(distanceList.indexOf(route.get().getDistance()), r.getDistance());
             io.printConfirmation("Updated element successfully");
         } else {
             io.printWarning("There is no object with such ID in the collection!");
@@ -73,7 +71,6 @@ public class CollectionManager {
         Optional<Route> route = getRouteByID(id);
         if (route.isPresent()) {
             collection.remove(route.get());
-            distanceList.remove(route.get().getDistance());
             io.printConfirmation("Element removed successfully");
         } else {
             io.printWarning("There is no object with such ID in the collection!");
@@ -115,7 +112,6 @@ public class CollectionManager {
      * @param idx       index of route to remove
      */
     public void removeElement(int idx, IOManager io) {
-        distanceList.remove(collection.get(idx).getDistance());
         collection.remove(idx);
         io.printConfirmation("Element removed successfully");
     }
@@ -127,18 +123,6 @@ public class CollectionManager {
         Collections.sort(collection);
     }
 
-    /**
-     * sorts collection's distance List
-     */
-    public void sortDistanceList() {
-        Collections.sort(distanceList);
-    }
-    /**
-     * reverses collection's distance List
-     */
-    public void reverseDistanceList() {
-        Collections.reverse(distanceList);
-    }
 
     /**
      * removes all objects from collection that are lower than the passed one
@@ -154,6 +138,12 @@ public class CollectionManager {
      * @param io        passed IOManager
      */
     public void printDistanceList(IOManager io) {
+        ArrayList<Float> distanceList = new ArrayList<>();
+        for (Route r : collection) {
+            distanceList.add(r.getDistance());
+        }
+        Collections.sort(distanceList);
+        Collections.reverse(distanceList);
         for (Float f : distanceList) {
             io.println(f);
         }
@@ -169,18 +159,9 @@ public class CollectionManager {
         Route route = new RouteCreator(io, this).createRoute();
 
         collection.add(route);
-        distanceList.add(route.getDistance());
         io.printConfirmation("Element added successfully");
     }
 
-    /**
-     * fills distance list after loading from xml file
-     */
-    public void fillDistanceList() {
-        for (Route r : collection) {
-            distanceList.add(r.getDistance());
-        }
-    }
 
     /**
      * sets minimal ID after loading from xml file

@@ -38,19 +38,18 @@ public final class Client {
     }
 
     public static void main(String[] args) throws IOException {
-        //String path = "SomeFile.xml";
-        String path;
         IOManager io = new IOManager(new BufferedReader(new InputStreamReader(System.in)), new PrintWriter(System.out, true), false);
+        String path = "SomeFile.xml";
+        /*String path;
         if (args.length != 1) {
             io.printWarning("This program only takes one argument!");
             return;
         } else {
             path = args[0];
-        }
+        }*/
         CollectionManager manager;
         try {
             manager = XmlParser.convertXmlToCollection(path);
-            manager.fillDistanceList();
             manager.setMinId();
         } catch (JAXBException e) {
             io.printWarning("Couldn't load collection from file! Exiting program...");

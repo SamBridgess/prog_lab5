@@ -20,8 +20,8 @@ public class PrintFieldDescendingDistanceCommand extends Command {
     }
     @Override
     public void execute(String[] args) {
-        manager.sortDistanceList();
-        manager.reverseDistanceList();
+       // manager.sortDistanceList();
+       // manager.reverseDistanceList();
         manager.printDistanceList(io);
     }
 }

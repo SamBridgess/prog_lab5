@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Stack;
 
 /**
@@ -54,7 +55,7 @@ public class ExecuteScriptCommand extends Command {
         io.setIsFile(true);
         io.setBufferedReader(br);
         String s;
-        while ((s = io.readLine()) != null) {
+        while (!Objects.equals(s = io.readLine(), "")) {
             try {
                 LineExecuter.executeLine(s, commands, io);
             } catch (WrongFileFormatException e) {
