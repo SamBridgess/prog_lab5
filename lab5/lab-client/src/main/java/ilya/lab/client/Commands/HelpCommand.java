@@ -7,14 +7,12 @@ import ilya.lab.client.Utility.CommandsManager;
  * help command
  */
 public class HelpCommand extends Command {
-    private IOManager io;
     public HelpCommand(IOManager io) {
-        super(0);
-        this.io = io;
+        super(0, io);
     }
 
     @Override
     public void execute(String[] args) {
-        CommandsManager.printCommandsHelp(io);
+        CommandsManager.printCommandsHelp(getIOManager());
     }
 }

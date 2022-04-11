@@ -8,16 +8,14 @@ import ilya.lab.client.Utility.CollectionManager;
  */
 public class SortCommand extends Command {
     private final CollectionManager manager;
-    private IOManager io;
     public SortCommand(IOManager io, CollectionManager manager) {
-        super(0);
-        this.io = io;
+        super(0, io);
         this.manager = manager;
     }
 
     @Override
     public void execute(String[] args) {
         manager.sortCollection();
-        io.printConfirmation("Collection sorted successfully");
+        getIOManager().printConfirmation("Collection sorted successfully");
     }
 }

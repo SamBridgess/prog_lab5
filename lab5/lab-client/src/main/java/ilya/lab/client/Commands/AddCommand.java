@@ -10,15 +10,13 @@ import ilya.lab.client.Utility.CollectionManager;
  */
 public class AddCommand extends Command {
     private final CollectionManager manager;
-    private IOManager io;
     public AddCommand(IOManager io, CollectionManager manager) {
-        super(0);
-        this.io = io;
+        super(0, io);
         this.manager = manager;
     }
 
     @Override
     public void execute(String[] args) throws WrongFileFormatException, CtrlDException {
-        manager.addNewElement(io);
+        manager.addNewElement(getIOManager());
     }
 }

@@ -19,13 +19,11 @@ import java.util.Stack;
  */
 public class ExecuteScriptCommand extends Command {
     private final CollectionManager manager;
-    private IOManager io;
     private HashMap<String, Command> commands;
     private Stack<File> files;
 
     public ExecuteScriptCommand(IOManager io, CollectionManager manager, HashMap<String, Command> commands, Stack<File> files) {
-        super(1);
-        this.io = io;
+        super(1, io);
         this.manager = manager;
         this.commands = commands;
         this.files = files;
@@ -34,38 +32,38 @@ public class ExecuteScriptCommand extends Command {
     @Override
     public void execute(String[] args) throws IOException, WrongFileFormatException, CtrlDException {
         File file = new File(args[0]);
-        BufferedReader oldBr = io.getBufferedReader();
+        BufferedReader oldBr = getIOManager().getBufferedReader();
         BufferedReader br;
         try {
             br = new BufferedReader(new FileReader(args[0]));
             if (files.contains(file)) {
-                io.printWarning("Recursion detected!");
+                getIOManager().printWarning("Recursion detected!");
                 throw new WrongFileFormatException();
             }
             files.add(file);
         } catch (IOException e) {
-            io.printWarning("File not found!");
+            getIOManager().printWarning("File not found!");
             return;
         }
-        io.setIsFile(true);
-        io.setBufferedReader(br);
+        getIOManager().setIsFile(true);
+        getIOManager().setBufferedReader(br);
 
-        String s = io.readLine();
+        String s = getIOManager().readLine();
         while (!Objects.equals(s, "")) {
             try {
-                LineExecuter.executeLine(s, commands, io);
+                LineExecuter.executeLine(s, commands, getIOManager());
             } catch (WrongFileFormatException e) {
-                io.setBufferedReader(oldBr);
-                io.setIsFile(false);
+                getIOManager().setBufferedReader(oldBr);
+                getIOManager().setIsFile(false);
                 throw new WrongFileFormatException();
             }
-            s = io.readLine();
+            s = getIOManager().readLine();
         }
 
-        io.setBufferedReader(oldBr);
-        io.setIsFile(false);
+        getIOManager().setBufferedReader(oldBr);
+        getIOManager().setIsFile(false);
         files.pop();
-        io.printConfirmation(file.getName() + " executed successfully");
+        getIOManager().printConfirmation(file.getName() + " executed successfully");
     }
 }
 //execute_script script.txt

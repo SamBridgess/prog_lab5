@@ -6,15 +6,12 @@ import ilya.lab.client.IO.IOManager;
  * exit command
  */
 public class ExitCommand extends Command {
-    private IOManager io;
-
     public ExitCommand(IOManager io) {
-        super(0);
-        this.io = io;
+        super(0, io);
     }
     @Override
     public void execute(String[] args) {
-        io.printConfirmation("Exiting...");
-        io.setContinueExecutionFlag(false);
+        getIOManager().printConfirmation("Exiting...");
+        getIOManager().setContinueExecutionFlag(false);
     }
 }

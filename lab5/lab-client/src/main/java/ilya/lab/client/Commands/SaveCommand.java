@@ -11,12 +11,10 @@ import java.io.IOException;
  */
 public class SaveCommand extends Command {
     private final CollectionManager manager;
-    private IOManager io;
     private String path;
 
     public SaveCommand(IOManager io, CollectionManager manager, String path) {
-        super(0);
-        this.io = io;
+        super(0, io);
         this.manager = manager;
         this.path = path;
     }
@@ -24,6 +22,6 @@ public class SaveCommand extends Command {
     @Override
     public void execute(String[] args) throws IOException {
         XmlParser.convertCollectionToXml(manager, path);
-        io.printConfirmation("Collection was saved successfully");
+        getIOManager().printConfirmation("Collection was saved successfully");
     }
 }
