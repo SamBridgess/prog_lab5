@@ -8,7 +8,7 @@ import ilya.lab.client.Utility.CollectionManager;
  */
 public class ClearCommand extends Command {
     public ClearCommand(IOManager io, CollectionManager manager) {
-        super(0, io);
+        super(0, io, manager);
     }
 
     @Override
