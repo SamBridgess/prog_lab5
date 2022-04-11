@@ -54,8 +54,9 @@ public class ExecuteScriptCommand extends Command {
         }
         io.setIsFile(true);
         io.setBufferedReader(br);
-        String s;
-        while (!Objects.equals(s = io.readLine(), "")) {
+
+        String s = io.readLine();
+        while (!Objects.equals(s, "")) {
             try {
                 LineExecuter.executeLine(s, commands, io);
             } catch (WrongFileFormatException e) {
@@ -63,7 +64,9 @@ public class ExecuteScriptCommand extends Command {
                 io.setIsFile(false);
                 throw new WrongFileFormatException();
             }
+            s = io.readLine();
         }
+
         io.setBufferedReader(oldBr);
         io.setIsFile(false);
         files.pop();

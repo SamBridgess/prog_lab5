@@ -149,6 +149,7 @@ public class CollectionManager {
         }
     }
 
+
     /**
      * adds new element to collection
      *
