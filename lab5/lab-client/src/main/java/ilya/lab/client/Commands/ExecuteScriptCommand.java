@@ -53,15 +53,17 @@ public class ExecuteScriptCommand extends Command {
             try {
                 LineExecuter.executeLine(s, commands, getIOManager());
             } catch (WrongFileFormatException e) {
+                getIOManager().close();
                 getIOManager().setBufferedReader(oldBr);
                 getIOManager().setIsFile(false);
                 throw new WrongFileFormatException();
             }
             s = getIOManager().readLine();
         }
-
+        getIOManager().close();
         getIOManager().setBufferedReader(oldBr);
         getIOManager().setIsFile(false);
+
         files.pop();
         getIOManager().printConfirmation(file.getName() + " executed successfully");
     }

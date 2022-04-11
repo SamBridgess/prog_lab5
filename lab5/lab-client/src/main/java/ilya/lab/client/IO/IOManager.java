@@ -79,6 +79,13 @@ public class IOManager {
     }
 
     /**
+     * closes reader
+     */
+    public void close() throws IOException {
+        reader.close();
+    }
+
+    /**
      * prints passed object without new
      *
      * @param o object to print
