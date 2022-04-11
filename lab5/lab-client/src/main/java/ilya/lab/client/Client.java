@@ -84,7 +84,7 @@ public final class Client {
         commands.put("remove_by_id", new RemoveByIdCommand(io, manager));
         commands.put("clear", new ClearCommand(io, manager));
         commands.put("save", new SaveCommand(io, manager, path));
-        commands.put("execute_script", new ExecuteScriptCommand(io, manager, commands, new Stack<>()));
+        commands.put("execute_script", new ExecuteScriptCommand(io, commands, new Stack<>()));
         commands.put("exit", new ExitCommand(io));
         commands.put("remove_first", new RemoveFirstCommand(io, manager));
         commands.put("remove_lower", new RemoveLowerCommand(io, manager));

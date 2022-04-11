@@ -8,16 +8,14 @@ import ilya.lab.client.Utility.CollectionManager;
  * filter_less_than_distance command
  */
 public class FilterLessThanDistanceCommand extends Command {
-    private final CollectionManager manager;
     public FilterLessThanDistanceCommand(IOManager io, CollectionManager manager) {
-        super(1, io);
-        this.manager = manager;
+        super(1, io, manager);
     }
 
     @Override
     public void execute(String[] args) throws WrongFileFormatException {
         try {
-            manager.printLessThanDistance(Float.parseFloat(args[0]), getIOManager());
+            getManager().printLessThanDistance(Float.parseFloat(args[0]), getIOManager());
         } catch (NumberFormatException e) {
             getIOManager().printWarning("Invalid command's arguments!");
             if (getIOManager().getIsFile()) {

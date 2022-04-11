@@ -18,13 +18,11 @@ import java.util.Stack;
  * execute_script command
  */
 public class ExecuteScriptCommand extends Command {
-    private final CollectionManager manager;
     private HashMap<String, Command> commands;
     private Stack<File> files;
 
-    public ExecuteScriptCommand(IOManager io, CollectionManager manager, HashMap<String, Command> commands, Stack<File> files) {
+    public ExecuteScriptCommand(IOManager io, HashMap<String, Command> commands, Stack<File> files) {
         super(1, io);
-        this.manager = manager;
         this.commands = commands;
         this.files = files;
     }

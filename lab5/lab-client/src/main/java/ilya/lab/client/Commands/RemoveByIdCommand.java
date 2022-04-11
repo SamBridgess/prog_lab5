@@ -8,16 +8,14 @@ import ilya.lab.client.Utility.CollectionManager;
  * remove_by_id command
  */
 public class RemoveByIdCommand extends Command {
-    private final CollectionManager manager;
     public RemoveByIdCommand(IOManager io, CollectionManager manager) {
-        super(1, io);
-        this.manager = manager;
+        super(1, io, manager);
     }
 
     @Override
     public void execute(String[] args) throws WrongFileFormatException {
         try {
-            manager.removeRouteByID(Long.parseLong(args[0]), getIOManager());
+            getManager().removeRouteByID(Long.parseLong(args[0]), getIOManager());
         } catch (NumberFormatException e) {
             getIOManager().printWarning("Invalid command's arguments!");
             if (getIOManager().getIsFile()) {

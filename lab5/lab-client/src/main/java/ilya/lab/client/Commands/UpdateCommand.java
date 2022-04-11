@@ -9,16 +9,14 @@ import ilya.lab.client.Utility.CollectionManager;
  * update command
  */
 public class UpdateCommand extends Command {
-    private final CollectionManager manager;
     public UpdateCommand(IOManager io, CollectionManager manager) {
-        super(1, io);
-        this.manager = manager;
+        super(1, io, manager);
     }
 
     @Override
     public void execute(String[] args) throws WrongFileFormatException, CtrlDException {
         try {
-            manager.updateRouteByID(Long.valueOf(args[0]), getIOManager());
+            getManager().updateRouteByID(Long.valueOf(args[0]), getIOManager());
         } catch (NumberFormatException e) {
             getIOManager().printWarning("Invalid command's arguments!");
             if (getIOManager().getIsFile()) {
