@@ -17,18 +17,17 @@ public class RemoveByIdCommand extends Command {
     @Override
     public void execute(String[] args) throws WrongFileFormatException {
         try {
-            if(manager.removeRouteByID(Long.parseLong(args[0]))) {
+            if (manager.removeRouteByID(Long.parseLong(args[0]))) {
                 getIOManager().printConfirmation("Element removed successfully");
-            }
-            else {
+            } else {
                 getIOManager().printWarning("There is no element with such ID in collection");
-                if(getIOManager().getIsFile()) {
+                if (getIOManager().getIsFile()) {
                     throw new WrongFileFormatException();
                 }
             }
         } catch (NumberFormatException e) {
             getIOManager().printWarning("Invalid command's arguments!");
-            if(getIOManager().getIsFile()) {
+            if (getIOManager().getIsFile()) {
                 throw new WrongFileFormatException();
             }
         }

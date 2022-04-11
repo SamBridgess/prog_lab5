@@ -20,7 +20,7 @@ public class UpdateCommand extends Command {
     @Override
     public void execute(String[] args) throws WrongFileFormatException, CtrlDException {
         try {
-            if(manager.isElementIdPresent(Long.valueOf(args[0]))) {
+            if (manager.isElementIdPresent(Long.valueOf(args[0]))) {
                 Route route = new RouteCreator(getIOManager(), manager).createRoute();
                 manager.updateRouteByID(Long.valueOf(args[0]), route);
                 getIOManager().printConfirmation("Updated element successfully");

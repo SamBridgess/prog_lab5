@@ -15,7 +15,7 @@ public class PrintFieldDescendingDistanceCommand extends Command {
 
     @Override
     public void execute(String[] args) {
-        for(Float f : manager.createDistanceList()){
+        for (Float f : manager.createDistanceList()) {
             getIOManager().println(f);
         }
     }

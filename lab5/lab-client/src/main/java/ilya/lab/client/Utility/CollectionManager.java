@@ -37,6 +37,12 @@ public class CollectionManager {
         return maxId++;
     }
 
+    /**
+     * checks if elemet with given ID is present in collection
+     *
+     * @param id    ID to check
+     * @return
+     */
     public boolean isElementIdPresent(Long id) {
         Optional<Route> route = getRouteByID(id);
         return route.isPresent();
@@ -49,22 +55,9 @@ public class CollectionManager {
      */
     public void updateRouteByID(Long id, Route r) throws WrongFileFormatException, CtrlDException {
         Optional<Route> route = getRouteByID(id);
-        if(route.isPresent()) {
+        if (route.isPresent()) {
             collection.set(collection.indexOf(route.get()), r);
         }
-
-        /* Optional<Route> route = getRouteByID(id);
-        if (route.isPresent()) {
-            Route r = new RouteCreator(io, this).createRoute();
-            collection.set(collection.indexOf(route.get()), r);
-            io.printConfirmation("Updated element successfully");
-        } else {
-            io.printWarning("There is no object with such ID in the collection!");
-            if (io.getIsFile()) {
-                throw new WrongFileFormatException();
-            }
-        }*/
-
     }
 
     /**
@@ -90,7 +83,7 @@ public class CollectionManager {
      * @return      returns if an element was removed successfully
      */
     public boolean removeRouteByIdx(int idx) {
-        if(!collection.isEmpty()) {
+        if (!collection.isEmpty()) {
             collection.remove(idx);
             return true;
         } else {
@@ -129,6 +122,9 @@ public class CollectionManager {
         collection.removeIf(value -> new RouteComparator().isLower(value, route));
     }
 
+    /**
+     * returns a list with all distances, sorted descending
+     */
     public ArrayList<Float> createDistanceList() {
         ArrayList<Float> distanceList = new ArrayList<>();
         for (Route r : collection) {

@@ -16,11 +16,11 @@ public class RemoveFirstCommand extends Command {
 
     @Override
     public void execute(String[] args) throws WrongFileFormatException {
-        if(manager.removeRouteByIdx(0)) {
+        if (manager.removeRouteByIdx(0)) {
             getIOManager().printConfirmation("First element removed successfully");
         } else {
             getIOManager().printWarning("Collection is empty, no first element");
-            if(getIOManager().getIsFile()) {
+            if (getIOManager().getIsFile()) {
                 throw new WrongFileFormatException();
             }
         }
