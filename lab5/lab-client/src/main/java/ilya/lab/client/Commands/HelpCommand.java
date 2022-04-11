@@ -13,6 +13,6 @@ public class HelpCommand extends Command {
 
     @Override
     public void execute(String[] args) {
-        CommandsManager.printCommandsHelp(getIOManager());
+        getIOManager().println(CommandsManager.getCommandsHelp());
     }
 }

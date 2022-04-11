@@ -10,13 +10,15 @@ import ilya.lab.client.Utility.CollectionManager;
  * remove_lower command
  */
 public class RemoveLowerCommand extends Command {
+    private CollectionManager manager;
     public RemoveLowerCommand(IOManager io, CollectionManager manager) {
-        super(0, io, manager);
+        super(0, io);
+        this.manager = manager;
     }
 
     @Override
     public void execute(String[] args) throws WrongFileFormatException, CtrlDException {
-        getManager().removeAllLower(new RouteCreator(getIOManager(), getManager()).createRoute());
+        manager.removeAllLower(new RouteCreator(getIOManager(), manager).createRoute());
         getIOManager().printConfirmation("Elements removed successfully");
     }
 }

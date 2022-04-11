@@ -52,11 +52,10 @@ public final class CommandsManager {
     }
 
     /**
-     * prints commands manual
-     * @param io        passed IOManager
+     * returns commands manual
      */
-    public static void printCommandsHelp(IOManager io) {
-        io.println("help : вывести справку по доступным командам\n"
+    public static String getCommandsHelp() {
+        return "help : вывести справку по доступным командам\n"
                 + "info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)\n"
                 + "show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении\n"
                 + "add {element} : добавить новый элемент в коллекцию\n"
@@ -71,7 +70,7 @@ public final class CommandsManager {
                 + "sort : отсортировать коллекцию в естественном порядке\n"
                 + "filter_less_than_distance distance : вывести элементы, значение поля distance которых меньше заданного\n"
                 + "print_ascending : вывести элементы коллекции в порядке возрастания\n"
-                + "print_field_descending_distance : вывести значения поля distance всех элементов в порядке убывания");
+                + "print_field_descending_distance : вывести значения поля distance всех элементов в порядке убывания";
     }
 
 }

@@ -3,8 +3,6 @@ package ilya.lab.client.Utility;
 import ilya.lab.client.Classes.Route;
 import ilya.lab.client.Exceptions.CtrlDException;
 import ilya.lab.client.Exceptions.WrongFileFormatException;
-import ilya.lab.client.IO.IOManager;
-import ilya.lab.client.IO.RouteCreator;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -39,15 +37,23 @@ public class CollectionManager {
         return maxId++;
     }
 
+    public boolean isElementIdPresent(Long id) {
+        Optional<Route> route = getRouteByID(id);
+        return route.isPresent();
+    }
     /**
      * updates route by ID with a newly created route
      *
      * @param id        id of a route to update
-     * @param io        passedIOManager
      * @throws WrongFileFormatException     thrown when scrypt file has wrong format
      */
-    public void updateRouteByID(Long id, IOManager io) throws WrongFileFormatException, CtrlDException {
+    public void updateRouteByID(Long id, Route r) throws WrongFileFormatException, CtrlDException {
         Optional<Route> route = getRouteByID(id);
+        if(route.isPresent()) {
+            collection.set(collection.indexOf(route.get()), r);
+        }
+
+        /* Optional<Route> route = getRouteByID(id);
         if (route.isPresent()) {
             Route r = new RouteCreator(io, this).createRoute();
             collection.set(collection.indexOf(route.get()), r);
@@ -57,27 +63,8 @@ public class CollectionManager {
             if (io.getIsFile()) {
                 throw new WrongFileFormatException();
             }
-        }
+        }*/
 
-    }
-
-    /**
-     * removes route by ID
-     *
-     * @param id        ID of a route to remove
-     * @param io        passed IOManager
-     */
-    public void removeRouteByID(Long id, IOManager io) throws WrongFileFormatException {
-        Optional<Route> route = getRouteByID(id);
-        if (route.isPresent()) {
-            collection.remove(route.get());
-            io.printConfirmation("Element removed successfully");
-        } else {
-            io.printWarning("There is no object with such ID in the collection!");
-            if (io.getIsFile()) {
-                throw new WrongFileFormatException();
-            }
-        }
     }
 
     /**
@@ -90,32 +77,42 @@ public class CollectionManager {
     }
 
     /**
-     * prints collection
-     * @param io        passed IOManager
+     * clears collection
      */
-    public void printCollection(IOManager io) {
-        for (Route route: collection) {
-            io.println(route);
+    public void clearCollection() {
+        collection.clear();
+    }
+
+    /**
+     * removes route by index
+     *
+     * @param idx   index of an element to remove
+     * @return      returns if an element was removed successfully
+     */
+    public boolean removeRouteByIdx(int idx) {
+        if(!collection.isEmpty()) {
+            collection.remove(idx);
+            return true;
+        } else {
+            return false;
         }
     }
 
     /**
-     * clears collection
+     * removes route by ID
+     *
+     * @param id    ID of an element to remove
+     * @return      returns if an element was removed successfully
      */
-    public void clearCollection(IOManager io) {
-        collection.clear();
-        io.printConfirmation("Collection cleared successfully");
+    public boolean removeRouteByID(Long id) {
+        Optional<Route> route = getRouteByID(id);
+        if (route.isPresent()) {
+            collection.remove(route.get());
+            return true;
+        } else {
+            return false;
+        }
     }
-
-    /**
-     * remove route with given index
-     * @param idx       index of route to remove
-     */
-    public void removeElement(int idx, IOManager io) {
-        collection.remove(idx);
-        io.printConfirmation("Element removed successfully");
-    }
-
     /**
      * sorts collection
      */
@@ -132,37 +129,24 @@ public class CollectionManager {
         collection.removeIf(value -> new RouteComparator().isLower(value, route));
     }
 
-    /**
-     * print distance list
-     *
-     * @param io        passed IOManager
-     */
-    public void printDistanceList(IOManager io) {
+    public ArrayList<Float> createDistanceList() {
         ArrayList<Float> distanceList = new ArrayList<>();
         for (Route r : collection) {
             distanceList.add(r.getDistance());
         }
         Collections.sort(distanceList);
         Collections.reverse(distanceList);
-        for (Float f : distanceList) {
-            io.println(f);
-        }
+        return distanceList;
     }
-
-
     /**
      * adds new element to collection
      *
-     * @param io        passed IOManager
+     * @param route                         element to add
      * @throws WrongFileFormatException     thrown when scrypt file has wrong format
      */
-    public void addNewElement(IOManager io) throws WrongFileFormatException, CtrlDException {
-        Route route = new RouteCreator(io, this).createRoute();
-
+    public void addNewElement(Route route) throws WrongFileFormatException, CtrlDException {
         collection.add(route);
-        io.printConfirmation("Element added successfully");
     }
-
 
     /**
      * sets minimal ID after loading from xml file
@@ -174,41 +158,19 @@ public class CollectionManager {
     }
 
     /**
-     * prints collection is ascending order
-     *
-     * @param io        passed IOManager
+     * returns collection
      */
-    public void printCollectionAscending(IOManager io) {
-        ArrayList<Route> listCopy = new ArrayList<>(collection);
-        Collections.sort(listCopy);
-        for (Route r : listCopy) {
-            io.println(r);
-        }
+    public ArrayList<Route> getCollection() {
+        return collection;
     }
 
     /**
-     * prints all objects with distance less than given
-     *
-     * @param d         distance to compare with
-     * @param io        passed IOManager
+     * returns information about collection
      */
-    public void printLessThanDistance(float d, IOManager io) {
-        for (Route r : collection) {
-            if (r.getDistance() < d) {
-                io.println(r);
-            }
-        }
-    }
-
-    /**
-     * prints information about collection
-     *
-     * @param io        passed IOManager
-     */
-    public void printInfo(IOManager io) {
-        io.println("Collection class: " + collection.getClass() + "\n"
+    public String getInfo() {
+        return "Collection class: " + collection.getClass() + "\n"
                 + "Creation date: " + collectionCreationDate + "\n"
-                + "Collection size: " + collection.size());
+                + "Collection size: " + collection.size();
     }
 
 

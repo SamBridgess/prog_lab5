@@ -7,12 +7,16 @@ import ilya.lab.client.Utility.CollectionManager;
  * clear command
  */
 public class ClearCommand extends Command {
+    private CollectionManager manager;
     public ClearCommand(IOManager io, CollectionManager manager) {
-        super(0, io, manager);
+        super(0, io);
+        this.manager = manager;
     }
 
     @Override
     public void execute(String[] args) {
-        getManager().clearCollection(getIOManager());
+        manager.clearCollection();
+        getIOManager().printConfirmation("Collection cleared successfully");
+
     }
 }

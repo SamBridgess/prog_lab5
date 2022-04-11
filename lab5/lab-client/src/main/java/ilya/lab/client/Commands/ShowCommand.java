@@ -1,5 +1,6 @@
 package ilya.lab.client.Commands;
 
+import ilya.lab.client.Classes.Route;
 import ilya.lab.client.IO.IOManager;
 import ilya.lab.client.Utility.CollectionManager;
 
@@ -7,12 +8,16 @@ import ilya.lab.client.Utility.CollectionManager;
  * show command
  */
 public class ShowCommand extends Command {
+    private CollectionManager manager;
     public ShowCommand(IOManager io, CollectionManager manager) {
-        super(0, io, manager);
+        super(0, io);
+        this.manager = manager;
     }
 
     @Override
     public void execute(String[] args) {
-        getManager().printCollection(getIOManager());
+        for (Route r : manager.getCollection()) {
+            getIOManager().println(r);
+        }
     }
 }

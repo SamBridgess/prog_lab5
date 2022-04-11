@@ -12,24 +12,17 @@ import java.io.IOException;
 public abstract class Command {
     private final int numberOfArguments;
     private final IOManager io;
-    private CollectionManager manager;
+
     public Command(int numberOfArguments, IOManager io) {
         this.numberOfArguments = numberOfArguments;
         this.io = io;
     }
-    public Command(int numberOfArguments, IOManager io, CollectionManager manager) {
-        this.numberOfArguments = numberOfArguments;
-        this.io = io;
-        this.manager = manager;
-    }
+
     public int getNumberOfArguments() {
         return numberOfArguments;
     }
     public IOManager getIOManager() {
         return io;
-    }
-    public CollectionManager getManager() {
-        return manager;
     }
     public abstract void execute(String[] args) throws IOException, WrongFileFormatException, CtrlDException;
 }
