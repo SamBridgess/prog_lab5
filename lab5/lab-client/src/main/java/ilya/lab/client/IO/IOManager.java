@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 /**
  * in-out manager
  */
-public class IOManager {
+public class IOManager implements AutoCloseable{
     private final String ansiReset = "\u001B[0m";
     private final String ansiRed = "\u001B[31m";
     private final String ansiGreen = "\u001B[32m";
