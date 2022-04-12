@@ -121,30 +121,7 @@ public class Route implements Comparable<Route> {
      */
     @Override
     public int compareTo(Route r) {
-        int retVal = 0;
-        if (this.distance > r.getDistance()) {
-            retVal = 1;
-        }
-        if (this.distance < r.getDistance()) {
-            retVal = -1;
-        }
-        if (this.distance == r.getDistance()) {
-            if (this.name.compareTo(r.getName()) < 0) {
-                retVal = 1;
-            }
-            if (this.name.compareTo(r.getName()) > 0) {
-                retVal = -1;
-            }
-            if (this.name.compareTo(r.getName()) == 0) {
-                if (this.id.compareTo(r.getId()) < 0) {
-                    retVal = 1;
-                }
-                if (this.id.compareTo(r.getId()) > 0) {
-                    retVal = -1;
-                }
-            }
-        }
-        return retVal;
+        return Float.compare(this.distance, r.getDistance()) == 0 ? (this.name.compareTo(r.getName()) == 0 ? (Long.compare(this.id, r.getId())) : this.name.compareTo(r.getName())) : Float.compare(this.distance, r.getDistance());
     }
 
     /**

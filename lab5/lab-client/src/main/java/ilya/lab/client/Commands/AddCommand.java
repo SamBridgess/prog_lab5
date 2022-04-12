@@ -14,7 +14,7 @@ public class AddCommand extends Command {
     private CollectionManager manager;
     public AddCommand(IOManager io, CollectionManager manager) {
         super(0, io);
-
+        this.manager = manager;
     }
 
     @Override

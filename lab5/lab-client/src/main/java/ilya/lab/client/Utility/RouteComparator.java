@@ -27,30 +27,7 @@ public class RouteComparator implements Comparator<Route> {
      */
     @Override
     public int compare(Route r1, Route r2) {
-        int retVal = 0;
-        if (r1.getDistance() > r2.getDistance()) {
-            retVal = 1;
-        }
-        if (r1.getDistance() < r2.getDistance()) {
-            retVal = -1;
-        }
-        if (r1.getDistance() == r2.getDistance()) {
-            if (r1.getName().compareTo(r2.getName()) < 0) {
-                retVal = 1;
-            }
-            if (r1.getName().compareTo(r2.getName()) > 0) {
-                retVal = -1;
-            }
-            if (r1.getName().compareTo(r2.getName()) == 0) {
-                if (r1.getId() > r2.getId()) {
-                    retVal = 1;
-                }
-                if (r1.getId() < r2.getId()) {
-                    retVal = -1;
-                }
-            }
-        }
-        return retVal;
+        return Float.compare(r1.getDistance(), r2.getDistance()) == 0 ? (r1.getName().compareTo(r2.getName()) == 0 ? (Long.compare(r1.getId(), r2.getId())) : r1.getName().compareTo(r2.getName())) : Float.compare(r1.getDistance(), r2.getDistance());
     }
 }
 
