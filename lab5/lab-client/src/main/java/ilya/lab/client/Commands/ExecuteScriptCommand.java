@@ -31,6 +31,8 @@ public class ExecuteScriptCommand extends Command {
         File file = new File(args[0]);
         BufferedReader oldBr = getIOManager().getBufferedReader();
         BufferedReader br;
+        getIOManager().printConfirmation( "Executing " + file.getName() + "...");
+
         try {
             br = new BufferedReader(new FileReader(args[0]));
             if (files.contains(file)) {
@@ -42,11 +44,12 @@ public class ExecuteScriptCommand extends Command {
             getIOManager().printWarning("File not found!");
             return;
         }
-        getIOManager().setIsFile(true);
+
         getIOManager().setBufferedReader(br);
 
         String s = getIOManager().readLine();
-        while (!Objects.equals(s, "")) {
+        while (!Objects.equals(s, null)) {
+            getIOManager().setIsFile(true);
             try {
                 LineExecuter.executeLine(s, commands, getIOManager());
             } catch (WrongFileFormatException e) {

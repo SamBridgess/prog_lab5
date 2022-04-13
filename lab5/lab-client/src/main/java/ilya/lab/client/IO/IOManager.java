@@ -72,7 +72,7 @@ public class IOManager implements AutoCloseable{
      */
     public String readLine() throws IOException, CtrlDException {
         String s = reader.readLine();
-        if (s == null) {
+        if (s == null & !isFile) {
             throw new CtrlDException();
         }
         return s;

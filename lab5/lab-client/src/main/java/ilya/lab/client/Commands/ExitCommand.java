@@ -15,3 +15,4 @@ public class ExitCommand extends Command {
         getIOManager().setContinueExecutionFlag(false);
     }
 }
+//todo продолжает исполнение если exit не последний в файле
