@@ -8,19 +8,16 @@ import ilya.lab.client.Utility.LineExecuter;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Stack;
 
 /**
  * execute_script command
  */
 public class ExecuteScriptCommand extends Command {
     private HashMap<String, Command> commands;
-    private Stack<File> files;
 
-    public ExecuteScriptCommand(IOManager io, HashMap<String, Command> commands, Stack<File> files) {
+    public ExecuteScriptCommand(IOManager io, HashMap<String, Command> commands) {
         super(1, io);
         this.commands = commands;
-        this.files = files;
     }
 
     @Override
@@ -28,12 +25,12 @@ public class ExecuteScriptCommand extends Command {
         File file = new File(args[0]);
         getIOManager().setIsFile(true);
         try {
-            if(!getIOManager().fillExecutionStack(file)) {
+            if (!getIOManager().fillExecutionStack(file)) {
                 getIOManager().printWarning("Recursion detected!");
                 throw new WrongFileFormatException();
             }
             getIOManager().printConfirmation("Starting to execute " + file.getName());
-            while(!getIOManager().isLastFileExecuted()) {
+            while (!getIOManager().isLastFileExecuted()) {
                 String command = getIOManager().getNextLineFromStack();
                 LineExecuter.executeLine(command, commands, getIOManager());
             }

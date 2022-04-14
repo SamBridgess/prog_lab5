@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.Stack;
 
 public final class Client {
     private Client() {
@@ -39,7 +38,8 @@ public final class Client {
 
     public static void main(String[] args) throws IOException {
         IOManager io = new IOManager(new BufferedReader(new InputStreamReader(System.in)), new PrintWriter(System.out, true), false);
-        String path = "SomeFile.xml";
+        try {
+            String path = "SomeFile.xml";
             /*String path;
             if (args.length != 1) {
                 io.printWarning("This program only takes one argument!");
@@ -47,32 +47,28 @@ public final class Client {
             } else {
                 path = args[0];
             }*/
-        CollectionManager manager;
-        try {
-            manager = XmlParser.convertXmlToCollection(path);
+            CollectionManager manager = XmlParser.convertXmlToCollection(path);
             manager.setMinId();
+            HashMap<String, Command> commands = createCommandsMap(manager, io, path);
+
+            while (io.getContinueExecutionFlag()) {
+                try {
+                    io.print(">>> ");
+
+                    String s = io.readLine();
+                    LineExecuter.executeLine(s, commands, io);
+                } catch (WrongFileFormatException e) {
+                    io.printWarning("Can't execute script further! Wrong file format");
+                } catch (CtrlDException e) {
+                    io.printWarning("ctrl + D detected! Exiting program...");
+                    return;
+                }
+            }
         } catch (JAXBException e) {
             io.printWarning("Couldn't load collection from file, because collection file has wrong format or doesn't exist! Exiting program...");
             return;
-        }
-        HashMap<String, Command> commands = createCommandsMap(manager, io, path);
-
-
-        while (io.getContinueExecutionFlag()) {
-            try {
-                io.print(">>> ");
-
-                String s = io.readLine();
-                LineExecuter.executeLine(s, commands, io);
-            } catch (WrongFileFormatException e) {
-                io.printWarning("Can't execute script further! Wrong file format");
-            } catch (CtrlDException e) {
-                io.printWarning("ctrl + D detected! Exiting program...");
-                return;
-            } finally {
-                io.closeAllReaders();
-            }
-
+        } finally {
+            io.closeAll();
         }
     }
 
@@ -86,7 +82,7 @@ public final class Client {
         commands.put("remove_by_id", new RemoveByIdCommand(io, manager));
         commands.put("clear", new ClearCommand(io, manager));
         commands.put("save", new SaveCommand(io, manager, path));
-        commands.put("execute_script", new ExecuteScriptCommand(io, commands, new Stack<>()));
+        commands.put("execute_script", new ExecuteScriptCommand(io, commands));
         commands.put("exit", new ExitCommand(io));
         commands.put("remove_first", new RemoveFirstCommand(io, manager));
         commands.put("remove_lower", new RemoveLowerCommand(io, manager));

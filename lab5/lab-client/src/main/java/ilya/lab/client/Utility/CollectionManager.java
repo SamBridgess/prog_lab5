@@ -1,8 +1,6 @@
 package ilya.lab.client.Utility;
 
 import ilya.lab.client.Classes.Route;
-import ilya.lab.client.Exceptions.CtrlDException;
-import ilya.lab.client.Exceptions.WrongFileFormatException;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -51,9 +49,8 @@ public class CollectionManager {
      * updates route by ID with a newly created route
      *
      * @param id        id of a route to update
-     * @throws WrongFileFormatException     thrown when scrypt file has wrong format
      */
-    public void updateRouteByID(Long id, Route r) throws WrongFileFormatException, CtrlDException {
+    public void updateRouteByID(Long id, Route r) {
         Optional<Route> route = getRouteByID(id);
         if (route.isPresent()) {
             collection.set(collection.indexOf(route.get()), r);
@@ -62,8 +59,9 @@ public class CollectionManager {
 
     /**
      * returns route with given ID or null in case there is no route with such ID
+     *
      * @param id        ID of a route to return
-     * @return          returns route with given ID or null
+     * @return
      */
     private Optional<Route> getRouteByID(Long id) {
         return collection.stream().filter(route -> route.getId().equals(id)).findAny();
@@ -124,6 +122,8 @@ public class CollectionManager {
 
     /**
      * returns a list with all distances, sorted descending
+     *
+     * @return
      */
     public ArrayList<Float> createDistanceList() {
         ArrayList<Float> distanceList = new ArrayList<>();
@@ -137,10 +137,9 @@ public class CollectionManager {
     /**
      * adds new element to collection
      *
-     * @param route                         element to add
-     * @throws WrongFileFormatException     thrown when scrypt file has wrong format
+     * @param route  element to add
      */
-    public void addNewElement(Route route) throws WrongFileFormatException, CtrlDException {
+    public void addNewElement(Route route) {
         collection.add(route);
     }
 
@@ -155,6 +154,8 @@ public class CollectionManager {
 
     /**
      * returns collection
+     *
+     * @return
      */
     public ArrayList<Route> getCollection() {
         return collection;
@@ -162,12 +163,12 @@ public class CollectionManager {
 
     /**
      * returns information about collection
+     *
+     * @return
      */
     public String getInfo() {
         return "Collection class: " + collection.getClass() + "\n"
                 + "Creation date: " + collectionCreationDate + "\n"
                 + "Collection size: " + collection.size();
     }
-
-
 }

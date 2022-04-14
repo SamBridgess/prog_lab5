@@ -2,7 +2,11 @@ package ilya.lab.client.IO;
 
 import ilya.lab.client.Exceptions.CtrlDException;
 
-import java.io.*;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Stack;
@@ -10,7 +14,7 @@ import java.util.Stack;
 /**
  * in-out manager
  */
-public class IOManager implements AutoCloseable{
+public class IOManager {
     private final String ansiReset = "\u001B[0m";
     private final String ansiRed = "\u001B[31m";
     private final String ansiGreen = "\u001B[32m";
@@ -21,6 +25,7 @@ public class IOManager implements AutoCloseable{
 
     private Stack<File> files = new Stack<>();
     private Stack<BufferedReader> readers = new Stack<>();
+    private Stack<PrintWriter> writers = new Stack<>();
     private Stack<ArrayList<String>> executionStack = new Stack<>();
 
     /**
@@ -36,31 +41,62 @@ public class IOManager implements AutoCloseable{
         this.isFile = isFile;
         this.continueExecutionFlag = true;
     }
-    public void closeAllReaders() throws IOException {
-        while (!readers.isEmpty()) {//todo закрывается только в случае рекурсии?
+
+    /**
+     * closes all readers and writers
+     *
+     * @throws IOException
+     */
+    public void closeAll() throws IOException {
+        while (!readers.isEmpty()) {
             BufferedReader br = readers.pop();
             br.close();
         }
+        while (!writers.isEmpty()) {
+            PrintWriter pw = writers.pop();
+            pw.close();
+        }
     }
 
+    /**
+     * returns if last added script was fully executed
+     *
+     * @return
+     */
     public boolean isLastFileExecuted() {
-        if(executionStack.peek().isEmpty()) {
+        if (executionStack.peek().isEmpty()) {
             executionStack.pop();
             return true;
         }
         return false;
     }
+
+    /**
+     * returns next line from executionStack
+     *
+     * @return
+     */
     public String getNextLineFromStack() {
         String s = executionStack.peek().get(0);
         executionStack.peek().remove(0);
         return s;
     }
+
+    /**
+     * adds file to executionStack
+     *
+     * @param file  File to add
+     * @return
+     * @throws IOException
+     * @throws CtrlDException
+     */
     public boolean fillExecutionStack(File file) throws IOException, CtrlDException {
         if (files.contains(file)) {
-            return false;//recursion detected
+            return false; //recursion detected
         }
         files.add(file);
         readers.add(reader);
+        writers.add(writer);
 
         reader = new BufferedReader(new FileReader(file));
 
@@ -71,14 +107,39 @@ public class IOManager implements AutoCloseable{
             s = readLine();
         }
         executionStack.add(commandsFromFile);
-        close();
+        closeReader();
+        closeWriter();
         reader = readers.pop();
+        writer = writers.pop();
         return true;
     }
+    /**
+     * closes reader
+     */
+    public void closeReader() throws IOException {
+        reader.close();
+    }
+    /**
+     * closes writer
+     */
+    public void closeWriter() {
+        writer.close();
+    }
 
+    /**
+     * sets continueExecutionFlag to passed parameter
+     *
+     * @param b
+     */
     public void setContinueExecutionFlag(boolean b) {
         continueExecutionFlag = b;
     }
+
+    /**
+     * returns value of continueExecutionFlag
+     *
+     * @return
+     */
     public boolean getContinueExecutionFlag() {
         return continueExecutionFlag;
     }
@@ -88,25 +149,14 @@ public class IOManager implements AutoCloseable{
     public void setIsFile(boolean b) {
         isFile = b;
     }
+
     /**
      * returns whether manager is working with a file in a given moment to isFile
+     *
+     * @return
      */
     public boolean getIsFile() {
         return isFile;
-    }
-
-    /**
-     * sets buffered reader
-     */
-    public  void setBufferedReader(BufferedReader buf) {
-        reader = buf;
-    }
-
-    /**
-     * returns current buffered reader
-     */
-    public  BufferedReader getBufferedReader() {
-        return reader;
     }
 
     /**
@@ -120,13 +170,6 @@ public class IOManager implements AutoCloseable{
             throw new CtrlDException();
         }
         return s;
-    }
-
-    /**
-     * closes reader
-     */
-    public void close() throws IOException {
-        reader.close();
     }
 
     /**
@@ -147,7 +190,7 @@ public class IOManager implements AutoCloseable{
     }
 
     /**
-     * prints passed warning message
+     * prints passed warning message in red
      *
      * @param o object to print
      */
@@ -155,6 +198,11 @@ public class IOManager implements AutoCloseable{
         writer.println(ansiRed + o + ansiReset);
     }
 
+    /**
+     * prints confirmation warning message in green
+     *
+     * @param o object to print
+     */
     public void printConfirmation(Object o) {
         writer.println(ansiGreen + o + ansiReset);
     }

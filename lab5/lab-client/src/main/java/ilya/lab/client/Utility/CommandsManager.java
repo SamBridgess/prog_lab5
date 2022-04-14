@@ -44,7 +44,7 @@ public final class CommandsManager {
                 }
             }
         } else {
-            io.printWarning("Command \"" + command +"\" not found!");
+            io.printWarning("Command \"" + command + "\" not found!");
             if (io.getIsFile()) {
                 throw new WrongFileFormatException();
             }
