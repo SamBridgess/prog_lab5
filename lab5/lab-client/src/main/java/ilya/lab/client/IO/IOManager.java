@@ -14,7 +14,7 @@ import java.util.Stack;
 /**
  * in-out manager
  */
-public class IOManager {
+public class IOManager implements AutoCloseable {
     private final String ansiReset = "\u001B[0m";
     private final String ansiRed = "\u001B[31m";
     private final String ansiGreen = "\u001B[32m";
@@ -42,12 +42,15 @@ public class IOManager {
         this.continueExecutionFlag = true;
     }
 
+
     /**
      * closes all readers and writers
      *
      * @throws IOException
      */
-    public void closeAll() throws IOException {
+    @Override
+    public void close() throws IOException {
+        println("Closing everything and exiting...");
         while (!readers.isEmpty()) {
             BufferedReader br = readers.pop();
             br.close();
@@ -214,4 +217,6 @@ public class IOManager {
     public void printConfirmation(Object o) {
         writer.println(ansiGreen + o + ansiReset);
     }
+
+
 }

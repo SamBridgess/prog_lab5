@@ -36,9 +36,8 @@ public final class Client {
         throw new UnsupportedOperationException("This is an utility class and can not be instantiated");
     }
 
-    public static void main(String[] args) throws IOException {
-        IOManager io = new IOManager(new BufferedReader(new InputStreamReader(System.in)), new PrintWriter(System.out, true), false);
-        try {
+    public static void main(String[] args) {
+        try (IOManager io = new IOManager(new BufferedReader(new InputStreamReader(System.in)), new PrintWriter(System.out, true), false)) {
             String path = "SomeFile.xml";
             /*String path;
             if (args.length != 1) {
@@ -47,10 +46,19 @@ public final class Client {
             } else {
                 path = args[0];
             }*/
-            CollectionManager manager = XmlParser.convertXmlToCollection(path);
+            CollectionManager manager;
+            try {
+                manager = XmlParser.convertXmlToCollection(path);
+            } catch (JAXBException e) {
+                io.printWarning("Couldn't load collection from file, file has wrong format! Exiting program...");
+                return;
+            } catch (IllegalArgumentException e) {
+                io.printWarning("Couldn't load collection from file, file doesn't exist! Exiting program...");
+                return;
+            }
             manager.setMinId();
-            HashMap<String, Command> commands = createCommandsMap(manager, io, path);
 
+            HashMap<String, Command> commands = createCommandsMap(manager, io, path);
             while (io.getContinueExecutionFlag()) {
                 try {
                     io.print(">>> ");
@@ -64,15 +72,9 @@ public final class Client {
                     return;
                 }
             }
-        } catch (JAXBException e) {
-            io.printWarning("Couldn't load collection from file, file has wrong format! Exiting program...");
-        } catch (IllegalArgumentException e) {
-            io.printWarning("Couldn't load collection from file, file doesn't exist! Exiting program...");
-        } finally {
-            io.closeAll();
+        } catch (IOException ignored) {
         }
     }
-
     public static HashMap<String, Command> createCommandsMap(CollectionManager  manager, IOManager io, String path) {
         HashMap<String, Command> commands = new HashMap<>();
         commands.put("help", new HelpCommand(io));
