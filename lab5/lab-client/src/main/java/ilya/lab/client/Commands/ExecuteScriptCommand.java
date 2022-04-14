@@ -5,12 +5,9 @@ import ilya.lab.client.Exceptions.WrongFileFormatException;
 import ilya.lab.client.IO.IOManager;
 import ilya.lab.client.Utility.LineExecuter;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.Stack;
 
 /**
@@ -27,45 +24,26 @@ public class ExecuteScriptCommand extends Command {
     }
 
     @Override
-    public void execute(String[] args) throws IOException, WrongFileFormatException, CtrlDException {
+    public void execute(String[] args) throws IOException, CtrlDException, WrongFileFormatException {
         File file = new File(args[0]);
-        BufferedReader oldBr = getIOManager().getBufferedReader();
-        BufferedReader br;
-        getIOManager().printConfirmation( "Executing " + file.getName() + "...");
-
+        getIOManager().setIsFile(true);
         try {
-            br = new BufferedReader(new FileReader(args[0]));
-            if (files.contains(file)) {
+            if(!getIOManager().fillExecutionStack(file)) {
                 getIOManager().printWarning("Recursion detected!");
                 throw new WrongFileFormatException();
             }
-            files.add(file);
+            getIOManager().printConfirmation("Starting to execute " + file.getName());
+            while(!getIOManager().isLastFileExecuted()) {
+                String command = getIOManager().getNextLineFromStack();
+                LineExecuter.executeLine(command, commands, getIOManager());
+            }
         } catch (IOException e) {
             getIOManager().printWarning("File not found!");
             return;
+        } finally {
+            getIOManager().setIsFile(false);
         }
-
-        getIOManager().setBufferedReader(br);
-
-        String s = getIOManager().readLine();
-        while (!Objects.equals(s, null)) {
-            getIOManager().setIsFile(true);
-            try {
-                LineExecuter.executeLine(s, commands, getIOManager());
-            } catch (WrongFileFormatException e) {
-                getIOManager().close();
-                getIOManager().setBufferedReader(oldBr);
-                getIOManager().setIsFile(false);
-                throw new WrongFileFormatException();
-            }
-            s = getIOManager().readLine();
-        }
-        getIOManager().close();
-        getIOManager().setBufferedReader(oldBr);
-        getIOManager().setIsFile(false);
-
-        files.pop();
         getIOManager().printConfirmation(file.getName() + " executed successfully");
     }
 }
-//execute_script script.txt
+

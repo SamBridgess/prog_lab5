@@ -25,10 +25,14 @@ public class FieldInputManager {
     public <T> T validatedLoopInput(String message, IOManager io, Class<T> clazz, ValueValidator validator) throws WrongFileFormatException, CtrlDException {
         while (true) {
             try {
+                String s;
                 if (!io.getIsFile()) {
                     io.print(message);
+                    s = io.readLine();
+                } else {
+                    s = io.getNextLineFromStack();
                 }
-                String s = io.readLine();
+
                 Object n;
                 if (Objects.equals(s, "")) {
                     n = null;

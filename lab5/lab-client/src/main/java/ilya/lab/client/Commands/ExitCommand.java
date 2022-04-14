@@ -12,7 +12,8 @@ public class ExitCommand extends Command {
     @Override
     public void execute(String[] args) {
         getIOManager().printConfirmation("Exiting...");
+        System.exit(0);
         getIOManager().setContinueExecutionFlag(false);
     }
 }
-//todo продолжает исполнение если exit не последний в файле
+

@@ -69,6 +69,8 @@ public final class Client {
             } catch (CtrlDException e) {
                 io.printWarning("ctrl + D detected! Exiting program...");
                 return;
+            } finally {
+                io.closeAllReaders();
             }
 
         }

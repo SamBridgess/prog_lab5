@@ -2,9 +2,10 @@ package ilya.lab.client.IO;
 
 import ilya.lab.client.Exceptions.CtrlDException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Stack;
 
 /**
  * in-out manager
@@ -18,6 +19,10 @@ public class IOManager implements AutoCloseable{
     private boolean isFile;
     private boolean continueExecutionFlag;
 
+    private Stack<File> files = new Stack<>();
+    private Stack<BufferedReader> readers = new Stack<>();
+    private Stack<ArrayList<String>> executionStack = new Stack<>();
+
     /**
      * creates new IOManager
      *
@@ -30,6 +35,45 @@ public class IOManager implements AutoCloseable{
         this.writer = writer;
         this.isFile = isFile;
         this.continueExecutionFlag = true;
+    }
+    public void closeAllReaders() throws IOException {
+        while (!readers.isEmpty()) {//todo закрывается только в случае рекурсии?
+            BufferedReader br = readers.pop();
+            br.close();
+        }
+    }
+
+    public boolean isLastFileExecuted() {
+        if(executionStack.peek().isEmpty()) {
+            executionStack.pop();
+            return true;
+        }
+        return false;
+    }
+    public String getNextLineFromStack() {
+        String s = executionStack.peek().get(0);
+        executionStack.peek().remove(0);
+        return s;
+    }
+    public boolean fillExecutionStack(File file) throws IOException, CtrlDException {
+        if (files.contains(file)) {
+            return false;//recursion detected
+        }
+        files.add(file);
+        readers.add(reader);
+
+        reader = new BufferedReader(new FileReader(file));
+
+        ArrayList<String> commandsFromFile = new ArrayList<>();
+        String s = readLine();
+        while (!Objects.equals(s, null)) {
+            commandsFromFile.add(s);
+            s = readLine();
+        }
+        executionStack.add(commandsFromFile);
+        close();
+        reader = readers.pop();
+        return true;
     }
 
     public void setContinueExecutionFlag(boolean b) {
