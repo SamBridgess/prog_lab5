@@ -65,8 +65,9 @@ public final class Client {
                 }
             }
         } catch (JAXBException e) {
-            io.printWarning("Couldn't load collection from file, because collection file has wrong format or doesn't exist! Exiting program...");
-            return;
+            io.printWarning("Couldn't load collection from file, file has wrong format! Exiting program...");
+        } catch (IllegalArgumentException e) {
+            io.printWarning("Couldn't load collection from file, file doesn't exist! Exiting program...");
         } finally {
             io.closeAll();
         }

@@ -8,6 +8,7 @@ import ilya.lab.client.Exceptions.WrongFileFormatException;
 import ilya.lab.client.Utility.CollectionManager;
 import ilya.lab.client.Utility.ValueValidator;
 
+
 public final class RouteCreator {
     private final float noMax = Float.MAX_VALUE;
     private final float noMin = Float.MIN_VALUE;
@@ -40,11 +41,17 @@ public final class RouteCreator {
         long y = inputManager.validatedLoopInput("Enter Y coordinate: ", io, Long.class, new ValueValidator(new Number[]{}, yBiggerThan, noMax, false));
         Coordinates coordinates = new Coordinates(x, y);
 
-        Integer fromX = inputManager.validatedLoopInput("Enter from X coordinate: ", io, Integer.class, new ValueValidator(new Number[]{}, noMin, noMax, false));
-        long fromY = inputManager.validatedLoopInput("Enter from Y coordinate: ", io, Long.class, new ValueValidator(new Number[]{}, noMin, noMax, false));
-        double fromZ = inputManager.validatedLoopInput("Enter from Z coordinate: ", io, Double.class, new ValueValidator(new Number[]{}, noMin, noMax, false));
-        String fromName = inputManager.validatedLoopInput("Enter from name: ", io, String.class, new ValueValidator(new Number[]{}, noMin, noMax, true));
-        Location from = new Location(fromX, fromY, fromZ, fromName);
+        Location from;
+        if (!inputManager.askIfNull("From Location", io)) {
+            Integer fromX = inputManager.validatedLoopInput("Enter from X coordinate: ", io, Integer.class, new ValueValidator(new Number[]{}, noMin, noMax, false));
+            long fromY = inputManager.validatedLoopInput("Enter from Y coordinate: ", io, Long.class, new ValueValidator(new Number[]{}, noMin, noMax, false));
+            double fromZ = inputManager.validatedLoopInput("Enter from Z coordinate: ", io, Double.class, new ValueValidator(new Number[]{}, noMin, noMax, false));
+            String fromName = inputManager.validatedLoopInput("Enter from name: ", io, String.class, new ValueValidator(new Number[]{}, noMin, noMax, true));
+            from = new Location(fromX, fromY, fromZ, fromName);
+        } else {
+            from = null;
+        }
+
 
         Integer toX = inputManager.validatedLoopInput("Enter to X coordinate: ", io, Integer.class, new ValueValidator(new Number[]{}, noMin, noMax, false));
         long toY = inputManager.validatedLoopInput("Enter to Y coordinate: ", io, Long.class, new ValueValidator(new Number[]{}, noMin, noMax, false));

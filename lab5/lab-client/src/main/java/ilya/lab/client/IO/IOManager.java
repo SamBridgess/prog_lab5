@@ -71,6 +71,20 @@ public class IOManager {
         return false;
     }
 
+    public String getNextLine() throws IOException, CtrlDException {
+        String s;
+        if (isFile) {
+            s = executionStack.peek().get(0);
+            executionStack.peek().remove(0);
+        } else {
+            s = reader.readLine();
+            if (s == null & !isFile) {
+                throw new CtrlDException();
+            }
+        }
+        return s;
+    }
+
     /**
      * returns next line from executionStack
      *
@@ -108,7 +122,7 @@ public class IOManager {
         }
         executionStack.add(commandsFromFile);
         closeReader();
-        closeWriter();
+
         reader = readers.pop();
         writer = writers.pop();
         return true;
@@ -118,12 +132,6 @@ public class IOManager {
      */
     public void closeReader() throws IOException {
         reader.close();
-    }
-    /**
-     * closes writer
-     */
-    public void closeWriter() {
-        writer.close();
     }
 
     /**

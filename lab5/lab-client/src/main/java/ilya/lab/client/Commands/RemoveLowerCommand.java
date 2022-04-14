@@ -6,6 +6,8 @@ import ilya.lab.client.IO.IOManager;
 import ilya.lab.client.IO.RouteCreator;
 import ilya.lab.client.Utility.CollectionManager;
 
+import java.io.IOException;
+
 /**
  * remove_lower command
  */

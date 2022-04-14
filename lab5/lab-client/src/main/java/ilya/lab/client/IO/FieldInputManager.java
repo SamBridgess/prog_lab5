@@ -25,13 +25,10 @@ public class FieldInputManager {
     public <T> T validatedLoopInput(String message, IOManager io, Class<T> clazz, ValueValidator validator) throws WrongFileFormatException, CtrlDException {
         while (true) {
             try {
-                String s;
                 if (!io.getIsFile()) {
                     io.print(message);
-                    s = io.readLine();
-                } else {
-                    s = io.getNextLineFromStack();
                 }
+                String s = io.getNextLine();
 
                 Object n;
                 if (Objects.equals(s, "")) {
@@ -52,7 +49,28 @@ public class FieldInputManager {
             }
         }
     }
-
+    public boolean askIfNull(String fieldName, IOManager io) throws CtrlDException, WrongFileFormatException {
+        while (true) {
+            try {
+                if (!io.getIsFile()) {
+                    io.println("Would you want for " + fieldName + " to be null?(y/n)");
+                }
+                String s = io.getNextLine();
+                if (Objects.equals(s, "y") | Objects.equals(s, "Y")) {
+                    return true;
+                }
+                if (Objects.equals(s, "n") | Objects.equals(s, "N")) {
+                    return false;
+                }
+                throw new InvalidValueException();
+            } catch (IOException | InvalidValueException e) {
+                io.printWarning("Invalid value! Must be Y or N");
+                if (io.getIsFile()) {
+                    throw new WrongFileFormatException();
+                }
+            }
+        }
+    }
     /**
      * converts string to passed type
      *

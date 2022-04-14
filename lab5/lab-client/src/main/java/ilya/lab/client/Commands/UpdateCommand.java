@@ -7,6 +7,8 @@ import ilya.lab.client.IO.IOManager;
 import ilya.lab.client.IO.RouteCreator;
 import ilya.lab.client.Utility.CollectionManager;
 
+import java.io.IOException;
+
 /**
  * update command
  */
@@ -36,14 +38,5 @@ public class UpdateCommand extends Command {
                 throw new WrongFileFormatException();
             }
         }
-        /*
-        try {
-            manager.updateRouteByID(Long.valueOf(args[0]), getIOManager());
-        } catch (NumberFormatException e) {
-            getIOManager().printWarning("Invalid command's arguments!");
-            if (getIOManager().getIsFile()) {
-                throw new WrongFileFormatException();
-            }
-        }*/
     }
 }
