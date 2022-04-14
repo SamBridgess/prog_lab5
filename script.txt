@@ -1,5 +1,6 @@
 info
 
 execute_script script2.txt
-save
+
 exit
+info

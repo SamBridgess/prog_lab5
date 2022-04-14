@@ -88,17 +88,16 @@ public class IOManager implements AutoCloseable {
         return s;
     }
 
-    /**
-     * returns next line from executionStack
-     *
-     * @return
-     */
-    public String getNextLineFromStack() {
-        String s = executionStack.peek().get(0);
-        executionStack.peek().remove(0);
-        return s;
+    public boolean addFileToStack(File file) {
+        if(files.contains(file)) {
+            return false;
+        }
+        files.add(file);
+        return true;
     }
-
+    public void popFileStack() {
+        files.pop();
+    }
     /**
      * adds file to executionStack
      *
@@ -108,10 +107,6 @@ public class IOManager implements AutoCloseable {
      * @throws CtrlDException
      */
     public boolean fillExecutionStack(File file) throws IOException, CtrlDException {
-        if (files.contains(file)) {
-            return false; //recursion detected
-        }
-        files.add(file);
         readers.add(reader);
         writers.add(writer);
 

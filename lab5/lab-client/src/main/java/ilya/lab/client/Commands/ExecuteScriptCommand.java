@@ -25,19 +25,22 @@ public class ExecuteScriptCommand extends Command {
         File file = new File(args[0]);
         getIOManager().setIsFile(true);
         try {
-            if (!getIOManager().fillExecutionStack(file)) {
+            if(!getIOManager().addFileToStack(file)) {
                 getIOManager().printWarning("Recursion detected!");
                 throw new WrongFileFormatException();
             }
+            getIOManager().fillExecutionStack(file);
             getIOManager().printConfirmation("Starting to execute " + file.getName());
             while (!getIOManager().isLastFileExecuted()) {
-                String command = getIOManager().getNextLineFromStack();
+                getIOManager().setIsFile(true);
+                String command = getIOManager().getNextLine();
                 LineExecuter.executeLine(command, commands, getIOManager());
             }
         } catch (IOException e) {
             getIOManager().printWarning("File not found!");
             return;
         } finally {
+            getIOManager().popFileStack();
             getIOManager().setIsFile(false);
         }
         getIOManager().printConfirmation(file.getName() + " executed successfully");
