@@ -104,7 +104,7 @@ public class IOManager implements AutoCloseable {
      * pops fileStack and execution Stack
      */
     public void popFile() {
-        if(!executionStack.isEmpty() & !fileStack.isEmpty()) {
+        if (!executionStack.isEmpty() & !fileStack.isEmpty()) {
             executionStack.pop();
             fileStack.pop();
         }

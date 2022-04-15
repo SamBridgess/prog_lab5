@@ -31,7 +31,7 @@ public class ExecuteScriptCommand extends Command {
     @Override
     public void execute(String[] args) throws IOException, CtrlDException, WrongFileFormatException {
         File file = new File(args[0]);
-        if(!file.exists()) {
+        if (!file.exists()) {
             getIOManager().printWarning("File \"" + file.getName() + "\" not found!");
             return;
         }

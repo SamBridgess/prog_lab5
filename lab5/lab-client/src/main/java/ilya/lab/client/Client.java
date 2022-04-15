@@ -52,14 +52,12 @@ public final class Client {
                 if (!(new File(path).length() == 0)) {
                     manager = XmlParser.convertXmlToCollection(path);
                 }
-            } catch (JAXBException e) {
-                io.printWarning("Couldn't load collection from file, file has wrong format! Exiting program...");
-                return;
-            } catch (IllegalArgumentException e) {
-                io.printWarning("Couldn't load collection from file, file doesn't exist! Exiting program...");
+            } catch (JAXBException | IllegalArgumentException e) {
+                io.printWarning("Collection file has wrong format or doesn't exist! Exiting program...");
                 return;
             }
             manager.setMinId();
+
             HashMap<String, Command> commands = createCommandsMap(manager, io, path);
             while (io.getContinueExecutionFlag()) {
                 try {
@@ -74,7 +72,7 @@ public final class Client {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Unexpected IOException!");
+            System.out.println("Unexpected exception!");
         }
     }
     public static HashMap<String, Command> createCommandsMap(CollectionManager  manager, IOManager io, String path) {
