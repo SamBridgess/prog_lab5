@@ -46,7 +46,7 @@ public class IOManager implements AutoCloseable {
      */
     @Override
     public void close() throws IOException {
-        println("Closing everything and exiting...");
+        printConfirmation("Closing everything...");
         while (!readers.isEmpty()) {
             BufferedReader br = readers.pop();
             br.close();
@@ -104,8 +104,10 @@ public class IOManager implements AutoCloseable {
      * pops fileStack and execution Stack
      */
     public void popFile() {
-        executionStack.pop();
-        fileStack.pop();
+        if(!executionStack.isEmpty() & !fileStack.isEmpty()) {
+            executionStack.pop();
+            fileStack.pop();
+        }
     }
     /**
      * adds file to executionStack

@@ -40,7 +40,7 @@ public final class Client {
     public static void main(String[] args) {
         try (IOManager io = new IOManager(new BufferedReader(new InputStreamReader(System.in)), new PrintWriter(System.out, true))) {
             String path = "SomeFile.xml";
-            /*String path;
+            /*  String path;
             if (args.length != 1) {
                 io.printWarning("This program only takes one argument!");
                 return;
@@ -73,8 +73,8 @@ public final class Client {
                     return;
                 }
             }
-        } catch (IOException ignored) {
-            System.out.println("Unexpected IOException! Exiting...");
+        } catch (IOException e) {
+            System.out.println("Unexpected IOException!");
         }
     }
     public static HashMap<String, Command> createCommandsMap(CollectionManager  manager, IOManager io, String path) {

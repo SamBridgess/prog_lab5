@@ -31,6 +31,10 @@ public class ExecuteScriptCommand extends Command {
     @Override
     public void execute(String[] args) throws IOException, CtrlDException, WrongFileFormatException {
         File file = new File(args[0]);
+        if(!file.exists()) {
+            getIOManager().printWarning("File \"" + file.getName() + "\" not found!");
+            return;
+        }
         try {
             if (!getIOManager().addFileToFileStack(file)) {
                 getIOManager().printWarning("Recursion detected!");
@@ -39,12 +43,8 @@ public class ExecuteScriptCommand extends Command {
             getIOManager().fillExecutionStack(file);
             getIOManager().printConfirmation("Starting to execute " + file.getName());
             while (!getIOManager().isLastFileExecuted()) {
-                String command = getIOManager().getNextLine();
-                LineExecuter.executeLine(command, commands, getIOManager());
+                LineExecuter.executeLine(getIOManager().getNextLine(), commands, getIOManager());
             }
-        } catch (IOException e) {
-            getIOManager().printWarning("File not found!");
-            return;
         } finally {
             getIOManager().popFile();
         }
