@@ -27,6 +27,7 @@ public class ExecuteScriptCommand extends Command {
         try {
             if(!getIOManager().addFileToStack(file)) {
                 getIOManager().printWarning("Recursion detected!");
+                getIOManager().popFileStack();
                 throw new WrongFileFormatException();
             }
             getIOManager().fillExecutionStack(file);
@@ -36,11 +37,11 @@ public class ExecuteScriptCommand extends Command {
                 String command = getIOManager().getNextLine();
                 LineExecuter.executeLine(command, commands, getIOManager());
             }
+            getIOManager().popFileStack();
         } catch (IOException e) {
             getIOManager().printWarning("File not found!");
             return;
         } finally {
-            getIOManager().popFileStack();
             getIOManager().setIsFile(false);
         }
         getIOManager().printConfirmation(file.getName() + " executed successfully");

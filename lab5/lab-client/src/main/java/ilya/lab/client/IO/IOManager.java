@@ -77,6 +77,9 @@ public class IOManager implements AutoCloseable {
     public String getNextLine() throws IOException, CtrlDException {
         String s;
         if (isFile) {
+            if(executionStack.peek().isEmpty()) {
+                return null;
+            }
             s = executionStack.peek().get(0);
             executionStack.peek().remove(0);
         } else {

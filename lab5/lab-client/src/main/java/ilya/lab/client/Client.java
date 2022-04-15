@@ -66,13 +66,14 @@ public final class Client {
                     String s = io.readLine();
                     LineExecuter.executeLine(s, commands, io);
                 } catch (WrongFileFormatException e) {
-                    io.printWarning("Can't execute script further! Wrong file format");
+                    io.printWarning("Can't execute script(s) further! Wrong file(s) format");
                 } catch (CtrlDException e) {
                     io.printWarning("ctrl + D detected! Exiting program...");
                     return;
                 }
             }
         } catch (IOException ignored) {
+            System.out.println("Unexpected IOException! Exiting...");
         }
     }
     public static HashMap<String, Command> createCommandsMap(CollectionManager  manager, IOManager io, String path) {
