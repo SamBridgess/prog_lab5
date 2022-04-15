@@ -9,6 +9,12 @@ public class ExitCommand extends Command {
     public ExitCommand(IOManager io) {
         super(0, io);
     }
+
+    /**
+     * executes command with arguments
+     *
+     * @param args      arguments
+     */
     @Override
     public void execute(String[] args) {
         getIOManager().printConfirmation("Exiting...");

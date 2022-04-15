@@ -100,7 +100,7 @@ public class Route implements Comparable<Route> {
     }
 
     /**
-     * @return returns string with information about each field
+     * @return          returns string with information about each field
      */
     @Override
     public String toString() {
@@ -116,8 +116,8 @@ public class Route implements Comparable<Route> {
     }
 
     /**
-     * @param r the object to compare with
-     * @return returns the result of comparing objects
+     * @param r         the object to compare with
+     * @return          returns the result of comparing objects
      */
     @Override
     public int compareTo(Route r) {
@@ -125,8 +125,8 @@ public class Route implements Comparable<Route> {
     }
 
     /**
-     * @param o the object to compare with
-     * @return returns true or false based on objects equality
+     * @param o         the object to compare with
+     * @return          returns true or false based on objects equality
      */
     @Override
     public boolean equals(Object o) {
@@ -141,7 +141,7 @@ public class Route implements Comparable<Route> {
     }
 
     /**
-     * @return returns hashcode
+     * @return          returns hashcode
      */
     @Override
     public int hashCode() {

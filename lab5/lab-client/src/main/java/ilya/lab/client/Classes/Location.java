@@ -64,7 +64,7 @@ public class Location {
     }
 
     /**
-     * @return returns string with information about each field
+     * @return          returns string with information about each field
      */
     @Override
     public String toString() {
@@ -77,8 +77,8 @@ public class Location {
     }
 
     /**
-     * @param o the object to compare with
-     * @return returns true or false based on objects equality
+     * @param o         the object to compare with
+     * @return          returns true or false based on objects equality
      */
     @Override
     public boolean equals(Object o) {
@@ -93,7 +93,7 @@ public class Location {
     }
 
     /**
-     * @return returns hashcode
+     * @return          returns hashcode
      */
     @Override
     public int hashCode() {

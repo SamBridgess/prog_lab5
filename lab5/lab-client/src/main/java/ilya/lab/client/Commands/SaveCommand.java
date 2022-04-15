@@ -18,6 +18,12 @@ public class SaveCommand extends Command {
         this.path = path;
     }
 
+    /**
+     * executes command with arguments
+     *
+     * @param args      arguments
+     * @throws IOException
+     */
     @Override
     public void execute(String[] args) throws IOException {
         XmlParser.convertCollectionToXml(manager, path);

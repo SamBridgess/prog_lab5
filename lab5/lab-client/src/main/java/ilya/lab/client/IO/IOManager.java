@@ -20,7 +20,6 @@ public class IOManager implements AutoCloseable {
     private final String ansiGreen = "\u001B[32m";
     private BufferedReader reader;
     private PrintWriter writer;
-    private boolean isFile;
     private boolean continueExecutionFlag;
 
     private Stack<File> files = new Stack<>();
@@ -33,15 +32,12 @@ public class IOManager implements AutoCloseable {
      *
      * @param reader    current reader
      * @param writer    current writer
-     * @param isFile    whether working with file
      */
-    public IOManager(BufferedReader reader, PrintWriter writer, boolean isFile) {
+    public IOManager(BufferedReader reader, PrintWriter writer) {
         this.reader = reader;
         this.writer = writer;
-        this.isFile = isFile;
         this.continueExecutionFlag = true;
     }
-
 
     /**
      * closes all readers and writers
@@ -62,9 +58,7 @@ public class IOManager implements AutoCloseable {
     }
 
     /**
-     * returns if last added script was fully executed
-     *
-     * @return
+     * @return      returns if last added script was fully executed and if it was, pops empty top element of execution stack
      */
     public boolean isLastFileExecuted() {
         if (executionStack.peek().isEmpty()) {
@@ -74,30 +68,45 @@ public class IOManager implements AutoCloseable {
         return false;
     }
 
+    /**
+     * @return      returns next line from console, or from execution stack if working with file
+     * @throws IOException
+     * @throws CtrlDException
+     */
     public String getNextLine() throws IOException, CtrlDException {
         String s;
-        if (isFile) {
-            if(executionStack.peek().isEmpty()) {
+        if (getIsFile()) {
+            if (executionStack.peek().isEmpty()) {
                 return null;
             }
             s = executionStack.peek().get(0);
             executionStack.peek().remove(0);
         } else {
             s = reader.readLine();
-            if (s == null & !isFile) {
+            if (s == null & !getIsFile()) {
                 throw new CtrlDException();
             }
         }
         return s;
     }
 
-    public boolean addFileToStack(File file) {
-        if(files.contains(file)) {
+    /**
+     * adds file to stack of opened files
+     *
+     * @param file  file to add
+     * @return      returns whether file was added successfully
+     */
+    public boolean addFileToFileStack(File file) {
+        if (files.contains(file)) {
             return false;
         }
         files.add(file);
         return true;
     }
+
+    /**
+     * pops FileStack
+     */
     public void popFileStack() {
         files.pop();
     }
@@ -105,7 +114,7 @@ public class IOManager implements AutoCloseable {
      * adds file to executionStack
      *
      * @param file  File to add
-     * @return
+     * @return      returns whether file was added successfully
      * @throws IOException
      * @throws CtrlDException
      */
@@ -115,57 +124,40 @@ public class IOManager implements AutoCloseable {
 
         reader = new BufferedReader(new FileReader(file));
 
-        ArrayList<String> commandsFromFile = new ArrayList<>();
+        executionStack.add(new ArrayList<>());
         String s = readLine();
         while (!Objects.equals(s, null)) {
-            commandsFromFile.add(s);
+            executionStack.peek().add(s);
             s = readLine();
         }
-        executionStack.add(commandsFromFile);
-        closeReader();
+        reader.close();
 
         reader = readers.pop();
         writer = writers.pop();
         return true;
     }
-    /**
-     * closes reader
-     */
-    public void closeReader() throws IOException {
-        reader.close();
-    }
 
     /**
      * sets continueExecutionFlag to passed parameter
      *
-     * @param b
+     * @param b     parameter to set ContinueExecutionFlag to
      */
     public void setContinueExecutionFlag(boolean b) {
         continueExecutionFlag = b;
     }
 
     /**
-     * returns value of continueExecutionFlag
-     *
-     * @return
+     * @return      returns value of continueExecutionFlag
      */
     public boolean getContinueExecutionFlag() {
         return continueExecutionFlag;
     }
-    /**
-     * sets whether manager is working with a file in a given moment to isFile
-     */
-    public void setIsFile(boolean b) {
-        isFile = b;
-    }
 
-    /**
-     * returns whether manager is working with a file in a given moment to isFile
-     *
-     * @return
+    /***
+     * @return      returns whether manager is working with a file in a given moment to isFile
      */
     public boolean getIsFile() {
-        return isFile;
+        return !executionStack.empty();
     }
 
     /**
@@ -175,18 +167,18 @@ public class IOManager implements AutoCloseable {
      */
     public String readLine() throws IOException, CtrlDException {
         String s = reader.readLine();
-        if (s == null & !isFile) {
+        if (s == null & !getIsFile()) {
             throw new CtrlDException();
         }
         return s;
     }
 
     /**
-     * prints passed object without new
+     * prints passed object without new line
      *
      * @param o object to print
      */
-    public  void print(Object o) {
+    public void print(Object o) {
         writer.printf("%s", o);
     }
     /**
@@ -215,6 +207,4 @@ public class IOManager implements AutoCloseable {
     public void printConfirmation(Object o) {
         writer.println(ansiGreen + o + ansiReset);
     }
-
-
 }

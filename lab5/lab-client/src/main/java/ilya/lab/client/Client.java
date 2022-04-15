@@ -37,7 +37,7 @@ public final class Client {
     }
 
     public static void main(String[] args) {
-        try (IOManager io = new IOManager(new BufferedReader(new InputStreamReader(System.in)), new PrintWriter(System.out, true), false)) {
+        try (IOManager io = new IOManager(new BufferedReader(new InputStreamReader(System.in)), new PrintWriter(System.out, true))) {
             String path = "SomeFile.xml";
             /*String path;
             if (args.length != 1) {

@@ -17,6 +17,11 @@ public class PrintAscendingCommand extends Command {
         this.manager = manager;
     }
 
+    /**
+     * executes command with arguments
+     *
+     * @param args      arguments
+     */
     @Override
     public void execute(String[] args) {
         ArrayList<Route> listCopy = new ArrayList<>(manager.getCollection());

@@ -13,6 +13,11 @@ public class SortCommand extends Command {
         this.manager = manager;
     }
 
+    /**
+     * executes command with arguments
+     *
+     * @param args      arguments
+     */
     @Override
     public void execute(String[] args) {
         manager.sortCollection();

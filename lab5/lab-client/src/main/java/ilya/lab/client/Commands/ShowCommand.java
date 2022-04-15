@@ -14,6 +14,11 @@ public class ShowCommand extends Command {
         this.manager = manager;
     }
 
+    /**
+     * executes command with arguments
+     *
+     * @param args      arguments
+     */
     @Override
     public void execute(String[] args) {
         for (Route r : manager.getCollection()) {

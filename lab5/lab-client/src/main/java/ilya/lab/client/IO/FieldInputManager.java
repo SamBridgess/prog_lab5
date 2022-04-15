@@ -16,11 +16,13 @@ public class FieldInputManager {
      * loops input until all field requirements are fulfilled
      *
      * @param message                   message with input invitation
-     * @param io                        in-out manager
+     * @param io                        passed IOManager
      * @param clazz                     expected input type
      * @param validator                 contains input restrictions
-     * @return                          returns input value converted to required type
-     * @throws WrongFileFormatException throws exception in case data scanned from a file doesn't fulfil requirements
+     * @param <T>
+     * @return                          returns required value
+     * @throws WrongFileFormatException
+     * @throws CtrlDException
      */
     public <T> T validatedLoopInput(String message, IOManager io, Class<T> clazz, ValueValidator validator) throws WrongFileFormatException, CtrlDException {
         while (true) {
@@ -31,7 +33,7 @@ public class FieldInputManager {
                 String s = io.getNextLine();
 
                 Object n;
-                if (Objects.equals(s, "")) {
+                if (Objects.equals(s, "") | Objects.equals(s, null)){
                     n = null;
                 } else {
                     n = convertTo(s, clazz);
@@ -49,6 +51,16 @@ public class FieldInputManager {
             }
         }
     }
+
+    /**
+     * ask whether this collection element should be null
+     *
+     * @param fieldName         name of field
+     * @param io                passed IOManager
+     * @return                  returns whether this collection element should be null
+     * @throws CtrlDException
+     * @throws WrongFileFormatException
+     */
     public boolean askIfNull(String fieldName, IOManager io) throws CtrlDException, WrongFileFormatException {
         while (true) {
             try {
@@ -76,6 +88,7 @@ public class FieldInputManager {
      *
      * @param s         string to convert
      * @param clazz     type to convert to
+     * @param <T>
      * @return          returns converted object
      */
     private <T> T convertTo(String s, Class<?> clazz) {

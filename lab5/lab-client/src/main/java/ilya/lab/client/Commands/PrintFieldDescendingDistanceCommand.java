@@ -13,6 +13,11 @@ public class PrintFieldDescendingDistanceCommand extends Command {
         this.manager = manager;
     }
 
+    /**
+     * executes command with arguments
+     *
+     * @param args      arguments
+     */
     @Override
     public void execute(String[] args) {
         for (Float f : manager.createDistanceList()) {

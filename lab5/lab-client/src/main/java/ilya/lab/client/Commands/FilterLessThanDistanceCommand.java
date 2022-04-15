@@ -15,6 +15,12 @@ public class FilterLessThanDistanceCommand extends Command {
         this.manager = manager;
     }
 
+    /**
+     * executes command with arguments
+     *
+     * @param args      arguments
+     * @throws WrongFileFormatException
+     */
     @Override
     public void execute(String[] args) throws WrongFileFormatException {
         try {

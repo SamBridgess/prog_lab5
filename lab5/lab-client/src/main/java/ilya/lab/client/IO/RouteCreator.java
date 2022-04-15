@@ -8,7 +8,9 @@ import ilya.lab.client.Exceptions.WrongFileFormatException;
 import ilya.lab.client.Utility.CollectionManager;
 import ilya.lab.client.Utility.ValueValidator;
 
-
+/**
+ * creates new Routes
+ */
 public final class RouteCreator {
     private final float noMax = Float.MAX_VALUE;
     private final float noMin = Float.MIN_VALUE;
@@ -31,7 +33,10 @@ public final class RouteCreator {
 
     /**
      * creates new Route
+     *
      * @return          returns created Route
+     * @throws WrongFileFormatException
+     * @throws CtrlDException
      */
     public Route createRoute() throws WrongFileFormatException, CtrlDException {
         FieldInputManager inputManager = new FieldInputManager();

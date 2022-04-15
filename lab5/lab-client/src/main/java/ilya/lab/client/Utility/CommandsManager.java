@@ -16,9 +16,10 @@ public final class CommandsManager {
     }
 
     /**
-     * checks whether the number of arguments is correct
+     *
      * @param given         given number of arguments
      * @param required      correct number of arguments
+     * @return              returns whether the number of arguments is correct
      */
     private static boolean checkNumberOfArguments(int given, int required) {
         return given == required;
@@ -30,8 +31,10 @@ public final class CommandsManager {
      * @param command       command to execute
      * @param args          command's arguments
      * @param commands      list of all commands
-     * @throws WrongFileFormatException
+     * @param io            passed IOManager
      * @throws IOException
+     * @throws WrongFileFormatException
+     * @throws CtrlDException
      */
     public static void execute(String command, String[] args, HashMap<String, Command> commands, IOManager io) throws IOException, WrongFileFormatException, CtrlDException {
         if (commands.containsKey(command)) {
@@ -52,7 +55,7 @@ public final class CommandsManager {
     }
 
     /**
-     * returns commands manual
+     * @return      returns commands manual
      */
     public static String getCommandsHelp() {
         return "help : вывести справку по доступным командам\n"

@@ -19,6 +19,13 @@ public class UpdateCommand extends Command {
         this.manager = manager;
     }
 
+    /**
+     * executes command with arguments
+     *
+     * @param args      arguments
+     * @throws WrongFileFormatException
+     * @throws CtrlDException
+     */
     @Override
     public void execute(String[] args) throws WrongFileFormatException, CtrlDException {
         try {

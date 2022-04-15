@@ -36,10 +36,8 @@ public class CollectionManager {
     }
 
     /**
-     * checks if elemet with given ID is present in collection
-     *
      * @param id    ID to check
-     * @return
+     * @return      returns whether element with given ID is present in collection
      */
     public boolean isElementIdPresent(Long id) {
         Optional<Route> route = getRouteByID(id);
@@ -58,10 +56,9 @@ public class CollectionManager {
     }
 
     /**
-     * returns route with given ID or null in case there is no route with such ID
      *
      * @param id        ID of a route to return
-     * @return
+     * @return          returns route with given ID or null in case there is no route with such ID
      */
     private Optional<Route> getRouteByID(Long id) {
         return collection.stream().filter(route -> route.getId().equals(id)).findAny();
@@ -93,7 +90,7 @@ public class CollectionManager {
      * removes route by ID
      *
      * @param id    ID of an element to remove
-     * @return      returns if an element was removed successfully
+     * @return      returns whether an element was removed successfully
      */
     public boolean removeRouteByID(Long id) {
         Optional<Route> route = getRouteByID(id);
@@ -121,9 +118,7 @@ public class CollectionManager {
     }
 
     /**
-     * returns a list with all distances, sorted descending
-     *
-     * @return
+     * @return          returns a list with all distances, sorted descending
      */
     public ArrayList<Float> createDistanceList() {
         ArrayList<Float> distanceList = new ArrayList<>();
@@ -153,18 +148,14 @@ public class CollectionManager {
     }
 
     /**
-     * returns collection
-     *
-     * @return
+     * @return      returns collection
      */
     public ArrayList<Route> getCollection() {
         return collection;
     }
 
     /**
-     * returns information about collection
-     *
-     * @return
+     * @return      returns information about collection
      */
     public String getInfo() {
         return "Collection class: " + collection.getClass() + "\n"

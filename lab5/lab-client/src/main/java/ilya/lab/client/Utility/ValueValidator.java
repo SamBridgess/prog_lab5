@@ -26,7 +26,6 @@ public class ValueValidator {
     }
 
     /**
-     * compares two numbers of different type
      * @param a             first number
      * @param b             second number
      * @return              returns the result of comparing two numbers
@@ -36,11 +35,10 @@ public class ValueValidator {
     }
 
     /**
-     * validates whether passed object fulfils the rules
      * @param n             object to validate
      * @param clazz         the class of the object to validate
      * @param <T>
-     * @return              returns validation result
+     * @return              returns whether passed object fulfils the rules
      */
     public <T> boolean validate(Object n, Class<T> clazz) {
         if (n == null) {

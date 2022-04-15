@@ -1,5 +1,7 @@
 package ilya.lab.client.Commands;
 
+import ilya.lab.client.Exceptions.CtrlDException;
+import ilya.lab.client.Exceptions.WrongFileFormatException;
 import ilya.lab.client.IO.IOManager;
 import ilya.lab.client.Utility.CollectionManager;
 
@@ -13,6 +15,11 @@ public class ClearCommand extends Command {
         this.manager = manager;
     }
 
+    /**
+     * executes command with arguments
+     *
+     * @param args      arguments
+     */
     @Override
     public void execute(String[] args) {
         manager.clearCollection();

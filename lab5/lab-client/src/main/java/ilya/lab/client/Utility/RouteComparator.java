@@ -9,8 +9,6 @@ import java.util.Comparator;
  */
 public class RouteComparator implements Comparator<Route> {
     /**
-     * returns whether the first argument is lower than the second
-     *
      * @param r1        first argument
      * @param r2        second argument
      * @return          returns whether the first argument is lower than the second
@@ -19,8 +17,8 @@ public class RouteComparator implements Comparator<Route> {
         return compare(r1, r2) < 0;
     }
 
+
     /**
-     * returns which argument is lower
      * @param r1        first argument
      * @param r2        second argument
      * @return          returns which argument is lower

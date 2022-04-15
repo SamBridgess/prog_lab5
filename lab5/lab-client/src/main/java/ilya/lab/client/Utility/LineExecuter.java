@@ -22,8 +22,10 @@ public final class LineExecuter {
      *
      * @param s                 String with a line to execute
      * @param commands          list of all commands
-     * @throws WrongFileFormatException
+     * @param io                passed IOManager
      * @throws IOException
+     * @throws WrongFileFormatException
+     * @throws CtrlDException
      */
     public static void executeLine(String s, HashMap<String, Command> commands, IOManager io) throws IOException, WrongFileFormatException, CtrlDException {
         String[] words = s.trim().split("\\s++");
@@ -36,5 +38,4 @@ public final class LineExecuter {
         }
         CommandsManager.execute(command, args, commands, io);
     }
-
 }
