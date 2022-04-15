@@ -16,7 +16,7 @@ public final class RouteCreator {
     private final float noMin = Float.MIN_VALUE;
 
     private final long yBiggerThan = -673;
-    private final float distaceBiggerThan = 1;
+    private final float distanceBiggerThan = 1;
     private final IOManager io;
     private final CollectionManager manager;
 
@@ -64,7 +64,7 @@ public final class RouteCreator {
         String toName = inputManager.validatedLoopInput("Enter to name: ", io, String.class, new ValueValidator(new Number[]{}, noMin, noMax, true));
         Location to = new Location(toX, toY, toZ, toName);
 
-        float distance = inputManager.validatedLoopInput("Enter distance: ", io, Float.class, new ValueValidator(new Number[]{}, distaceBiggerThan, noMax, false));
+        float distance = inputManager.validatedLoopInput("Enter distance: ", io, Float.class, new ValueValidator(new Number[]{}, distanceBiggerThan, noMax, false));
 
         return new Route(name, coordinates, from, to, distance, manager);
     }

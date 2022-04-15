@@ -12,7 +12,7 @@ import ilya.lab.client.Utility.CollectionManager;
  * update command
  */
 public class UpdateCommand extends Command {
-    private CollectionManager manager;
+    private final CollectionManager manager;
     public UpdateCommand(IOManager io, CollectionManager manager) {
         super(1, io);
         this.manager = manager;

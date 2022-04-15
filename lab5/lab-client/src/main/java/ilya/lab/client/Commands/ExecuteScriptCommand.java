@@ -13,7 +13,7 @@ import java.util.HashMap;
  * execute_script command
  */
 public class ExecuteScriptCommand extends Command {
-    private HashMap<String, Command> commands;
+    private final HashMap<String, Command> commands;
 
     public ExecuteScriptCommand(IOManager io, HashMap<String, Command> commands) {
         super(1, io);
@@ -46,7 +46,7 @@ public class ExecuteScriptCommand extends Command {
             getIOManager().printWarning("File not found!");
             return;
         } finally {
-            getIOManager().popFileStack();
+            getIOManager().popFile();
         }
         getIOManager().printConfirmation(file.getName() + " executed successfully");
     }

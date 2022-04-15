@@ -8,7 +8,7 @@ import ilya.lab.client.Utility.CollectionManager;
  * remove_first command
  */
 public class RemoveFirstCommand extends Command {
-    private CollectionManager manager;
+    private final CollectionManager manager;
     public RemoveFirstCommand(IOManager io, CollectionManager manager) {
         super(0, io);
         this.manager = manager;

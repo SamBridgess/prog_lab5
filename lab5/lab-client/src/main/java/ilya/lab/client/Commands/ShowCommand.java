@@ -8,7 +8,7 @@ import ilya.lab.client.Utility.CollectionManager;
  * show command
  */
 public class ShowCommand extends Command {
-    private CollectionManager manager;
+    private final CollectionManager manager;
     public ShowCommand(IOManager io, CollectionManager manager) {
         super(0, io);
         this.manager = manager;

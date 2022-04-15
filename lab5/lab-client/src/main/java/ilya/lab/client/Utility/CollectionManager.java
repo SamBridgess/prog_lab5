@@ -50,9 +50,7 @@ public class CollectionManager {
      */
     public void updateRouteByID(Long id, Route r) {
         Optional<Route> route = getRouteByID(id);
-        if (route.isPresent()) {
-            collection.set(collection.indexOf(route.get()), r);
-        }
+        route.ifPresent(value -> collection.set(collection.indexOf(value), r));
     }
 
     /**

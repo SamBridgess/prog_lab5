@@ -64,7 +64,7 @@ public final class Client {
             while (io.getContinueExecutionFlag()) {
                 try {
                     io.print(">>> ");
-                    String s = io.readLine();
+                    String s = io.getNextLine();
                     LineExecuter.executeLine(s, commands, io);
                 } catch (WrongFileFormatException e) {
                     io.printWarning("Can't execute script(s) further! Wrong file(s) format");

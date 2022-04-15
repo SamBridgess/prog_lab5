@@ -7,7 +7,7 @@ import ilya.lab.client.Utility.CollectionManager;
  * sort command
  */
 public class SortCommand extends Command {
-    private CollectionManager manager;
+    private final CollectionManager manager;
     public SortCommand(IOManager io, CollectionManager manager) {
         super(0, io);
         this.manager = manager;

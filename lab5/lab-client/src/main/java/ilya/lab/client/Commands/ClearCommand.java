@@ -7,7 +7,7 @@ import ilya.lab.client.Utility.CollectionManager;
  * clear command
  */
 public class ClearCommand extends Command {
-    private CollectionManager manager;
+    private final CollectionManager manager;
     public ClearCommand(IOManager io, CollectionManager manager) {
         super(0, io);
         this.manager = manager;

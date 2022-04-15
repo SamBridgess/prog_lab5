@@ -7,7 +7,7 @@ import ilya.lab.client.Utility.CollectionManager;
  * info command
  */
 public class InfoCommand extends Command {
-    private CollectionManager manager;
+    private final CollectionManager manager;
     public InfoCommand(IOManager io, CollectionManager manager) {
         super(0, io);
         this.manager = manager;

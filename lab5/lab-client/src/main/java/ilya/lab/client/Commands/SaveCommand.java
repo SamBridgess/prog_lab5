@@ -10,8 +10,8 @@ import java.io.IOException;
  * save command
  */
 public class SaveCommand extends Command {
-    private CollectionManager manager;
-    private String path;
+    private final CollectionManager manager;
+    private final String path;
     public SaveCommand(IOManager io, CollectionManager manager, String path) {
         super(0, io);
         this.manager = manager;

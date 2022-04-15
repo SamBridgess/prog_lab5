@@ -11,7 +11,7 @@ import java.util.Collections;
  * print_ascending command
  */
 public class PrintAscendingCommand extends Command {
-    private CollectionManager manager;
+    private final CollectionManager manager;
     public PrintAscendingCommand(IOManager io, CollectionManager manager) {
         super(0, io);
         this.manager = manager;

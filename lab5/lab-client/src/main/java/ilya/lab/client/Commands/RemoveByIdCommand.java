@@ -8,7 +8,7 @@ import ilya.lab.client.Utility.CollectionManager;
  * remove_by_id command
  */
 public class RemoveByIdCommand extends Command {
-    private CollectionManager manager;
+    private final CollectionManager manager;
     public RemoveByIdCommand(IOManager io, CollectionManager manager) {
         super(1, io);
         this.manager = manager;

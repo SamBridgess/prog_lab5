@@ -9,7 +9,7 @@ import ilya.lab.client.Utility.CollectionManager;
  * filter_less_than_distance command
  */
 public class FilterLessThanDistanceCommand extends Command {
-    private CollectionManager manager;
+    private final CollectionManager manager;
     public FilterLessThanDistanceCommand(IOManager io, CollectionManager manager) {
         super(1, io);
         this.manager = manager;

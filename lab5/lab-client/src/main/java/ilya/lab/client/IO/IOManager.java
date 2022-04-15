@@ -22,10 +22,10 @@ public class IOManager implements AutoCloseable {
     private PrintWriter writer;
     private boolean continueExecutionFlag;
 
-    private Stack<File> files = new Stack<>();
-    private Stack<BufferedReader> readers = new Stack<>();
-    private Stack<PrintWriter> writers = new Stack<>();
-    private Stack<ArrayList<String>> executionStack = new Stack<>();
+    private final Stack<File> fileStack = new Stack<>();
+    private final Stack<BufferedReader> readers = new Stack<>();
+    private final Stack<PrintWriter> writers = new Stack<>();
+    private final Stack<ArrayList<String>> executionStack = new Stack<>();
 
     /**
      * creates new IOManager
@@ -58,14 +58,10 @@ public class IOManager implements AutoCloseable {
     }
 
     /**
-     * @return      returns if last added script was fully executed and if it was, pops empty top element of execution stack
+     * @return      returns if last added script was fully executed and if it was
      */
     public boolean isLastFileExecuted() {
-        if (executionStack.peek().isEmpty()) {
-            executionStack.pop();
-            return true;
-        }
-        return false;
+        return executionStack.peek().isEmpty();
     }
 
     /**
@@ -97,44 +93,42 @@ public class IOManager implements AutoCloseable {
      * @return      returns whether file was added successfully
      */
     public boolean addFileToFileStack(File file) {
-        if (files.contains(file)) {
+        if (fileStack.contains(file)) {
             return false;
         }
-        files.add(file);
+        fileStack.add(file);
         return true;
     }
 
     /**
-     * pops FileStack
+     * pops fileStack and execution Stack
      */
-    public void popFileStack() {
-        files.pop();
+    public void popFile() {
+        executionStack.pop();
+        fileStack.pop();
     }
     /**
      * adds file to executionStack
      *
      * @param file  File to add
-     * @return      returns whether file was added successfully
      * @throws IOException
-     * @throws CtrlDException
      */
-    public boolean fillExecutionStack(File file) throws IOException, CtrlDException {
+    public void fillExecutionStack(File file) throws IOException {
         readers.add(reader);
         writers.add(writer);
 
         reader = new BufferedReader(new FileReader(file));
 
         executionStack.add(new ArrayList<>());
-        String s = readLine();
+        String s = reader.readLine();
         while (!Objects.equals(s, null)) {
             executionStack.peek().add(s);
-            s = readLine();
+            s = reader.readLine();
         }
         reader.close();
 
         reader = readers.pop();
         writer = writers.pop();
-        return true;
     }
 
     /**
@@ -158,19 +152,6 @@ public class IOManager implements AutoCloseable {
      */
     public boolean getIsFile() {
         return !executionStack.empty();
-    }
-
-    /**
-     * reads one line
-     *
-     * @return returns read line
-     */
-    public String readLine() throws IOException, CtrlDException {
-        String s = reader.readLine();
-        if (s == null & !getIsFile()) {
-            throw new CtrlDException();
-        }
-        return s;
     }
 
     /**

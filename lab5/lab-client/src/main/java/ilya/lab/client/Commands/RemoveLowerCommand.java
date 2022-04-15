@@ -11,7 +11,7 @@ import ilya.lab.client.Utility.CollectionManager;
  * remove_lower command
  */
 public class RemoveLowerCommand extends Command {
-    private CollectionManager manager;
+    private final CollectionManager manager;
     public RemoveLowerCommand(IOManager io, CollectionManager manager) {
         super(0, io);
         this.manager = manager;
