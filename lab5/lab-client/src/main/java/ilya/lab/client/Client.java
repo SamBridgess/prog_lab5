@@ -39,14 +39,14 @@ public final class Client {
 
     public static void main(String[] args) {
         try (IOManager io = new IOManager(new BufferedReader(new InputStreamReader(System.in)), new PrintWriter(System.out, true))) {
-            String path = "SomeFile.xml";
-            /*  String path;
+            //String path = "SomeFile.xml";
+            String path;
             if (args.length != 1) {
                 io.printWarning("This program only takes one argument!");
                 return;
             } else {
                 path = args[0];
-            }*/
+            }
             CollectionManager manager = new CollectionManager();
             try {
                 if (!(new File(path).length() == 0)) {
