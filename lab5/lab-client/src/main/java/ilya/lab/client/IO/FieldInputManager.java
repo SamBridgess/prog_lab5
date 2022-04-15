@@ -33,7 +33,7 @@ public class FieldInputManager {
                 String s = io.getNextLine();
 
                 Object n;
-                if (Objects.equals(s, "") | Objects.equals(s, null)){
+                if (Objects.equals(s, "") | Objects.equals(s, null)) {
                     n = null;
                 } else {
                     n = convertTo(s, clazz);

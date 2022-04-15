@@ -29,6 +29,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.File;
 import java.util.HashMap;
 
 public final class Client {
@@ -46,9 +47,11 @@ public final class Client {
             } else {
                 path = args[0];
             }*/
-            CollectionManager manager;
+            CollectionManager manager = new CollectionManager();
             try {
-                manager = XmlParser.convertXmlToCollection(path);
+                if (!(new File(path).length() == 0)) {
+                    manager = XmlParser.convertXmlToCollection(path);
+                }
             } catch (JAXBException e) {
                 io.printWarning("Couldn't load collection from file, file has wrong format! Exiting program...");
                 return;
@@ -57,12 +60,10 @@ public final class Client {
                 return;
             }
             manager.setMinId();
-
             HashMap<String, Command> commands = createCommandsMap(manager, io, path);
             while (io.getContinueExecutionFlag()) {
                 try {
                     io.print(">>> ");
-
                     String s = io.readLine();
                     LineExecuter.executeLine(s, commands, io);
                 } catch (WrongFileFormatException e) {

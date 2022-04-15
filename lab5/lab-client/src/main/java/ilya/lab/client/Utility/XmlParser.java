@@ -40,7 +40,6 @@ public final class XmlParser {
      * @param path          path to file
      * @return              returns updated collection manager
      * @throws JAXBException
-     *
      */
     public static CollectionManager convertXmlToCollection(String path) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(CollectionManager.class);
