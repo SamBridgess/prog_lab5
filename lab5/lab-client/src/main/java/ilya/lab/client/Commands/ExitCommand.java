@@ -23,7 +23,6 @@ public class ExitCommand extends Command {
         getIOManager().close();
         getIOManager().printConfirmation("Exiting...");
 
-        System.exit(0);
         getIOManager().setContinueExecutionFlag(false);
     }
 }

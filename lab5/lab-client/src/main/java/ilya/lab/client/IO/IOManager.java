@@ -55,6 +55,8 @@ public class IOManager implements AutoCloseable {
             PrintWriter pw = writers.pop();
             pw.close();
         }
+        reader.close();
+        writer.close();
     }
 
     /**
