@@ -30,10 +30,9 @@ public class Route implements Comparable<Route> {
      * @param from          "from" coordinates (can be null)
      * @param to            "to" coordinates (cannot be null)
      * @param distance      route length (must be greater than 1)
-     * @param manager       passing CollectionManager to generate ID
      */
-    public Route(String name, Coordinates coordinates, Location from, Location to, float distance, CollectionManager manager) {
-        this.id = manager.assignNewId();
+    public Route(Long id, String name, Coordinates coordinates, Location from, Location to, float distance) {
+        this.id = id;
         this.name = name;
         this.coordinates = coordinates;
         this.creationDate = new Date();

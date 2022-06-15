@@ -66,7 +66,7 @@ public final class RouteCreator {
 
         float distance = inputManager.validatedLoopInput("Enter distance: ", io, Float.class, new ValueValidator(new Number[]{}, distanceBiggerThan, noMax, false));
 
-        return new Route(name, coordinates, from, to, distance, manager);
+        return new Route(manager.assignNewId(), name, coordinates, from, to, distance);
     }
 
 }
